@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.geometry.Insets?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minordealer.control.Main">
 
     <top>
@@ -19,9 +17,6 @@
             </right>
         </BorderPane>
     </top>
-
-    <center>
-    </center>
 
 
 </BorderPane>

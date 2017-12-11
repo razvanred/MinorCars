@@ -16,10 +16,11 @@ public class Main implements Initializable {
     private final TabMaster tabMaster;
     private Parent rootTabMaster;
 
+
+
     public Main(){
         final FXMLLoader loader=new FXMLLoader(getClass().getResource("../../commons/view/tabmaster.fxml"));
-
-        manager=new DealerManager();
+        loader.setController((tabMaster=new TabMaster(manager=new DealerManager())));
 
         try{
             rootTabMaster=loader.load();
@@ -27,12 +28,12 @@ public class Main implements Initializable {
             io.printStackTrace();
         }
 
-        tabMaster=loader.getController();
+        //tabMaster=loader.getController();
 
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
 
     }
 

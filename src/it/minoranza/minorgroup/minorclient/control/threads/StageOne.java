@@ -3,6 +3,7 @@ package it.minoranza.minorgroup.minorclient.control.threads;
 import it.minoranza.minorgroup.commons.model.RequestClientServer;
 import it.minoranza.minorgroup.minorclient.control.Login;
 import javafx.application.Platform;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -31,7 +32,7 @@ public class StageOne extends Thread {
                 final OutputStream output = socket.getOutputStream();
                 final PrintWriter pw = new PrintWriter(output, true);
 
-                pw.println(RequestClientServer.listaAuto.name());
+                pw.println(RequestClientServer.letMeIn.name());
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

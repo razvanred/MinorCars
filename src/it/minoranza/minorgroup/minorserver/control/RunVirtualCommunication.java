@@ -40,16 +40,18 @@ public class RunVirtualCommunication extends Thread {
 
                 System.out.println(buffer.toString());
 
-                belong=new JSONObject(buffer.toString());
+
                 buffer.close();
                 is.close();
 
                 try{
-                    belong.getString(RequestClientServer.ipClient.name()); //JUST A TEST
+                    belong=new JSONObject();
+                    belong.put(RequestClientServer.ipClient.name(),s.getInetAddress());
+                    belong.put(RequestClientServer.ipClient.name(),s.getPort());
                 }catch(JSONException exception){
                     System.err.println("Too bad!");
                     //belong.getString(RequestDealerServer.ipAddress.name());
-                    
+                    belong=new JSONObject(buffer.toString());
                 }
 
                 buffer.close();

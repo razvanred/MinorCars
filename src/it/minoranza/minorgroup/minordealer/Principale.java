@@ -53,5 +53,7 @@ public class Principale  extends Application{
     public void start(final Stage primaryStage) throws Exception {
         Parent root= FXMLLoader.load(getClass().getResource("view/main.fxml"));
         primaryStage.setScene(new Scene(root,500,400));
+        primaryStage.setTitle("MinorDealer");
+        primaryStage.show();
     }
 }

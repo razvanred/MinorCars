@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.ToggleSwitch?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="it.minoranza.minorgroup.commons.control.AddCar">
+
+    <center>
+        <HBox alignment="CENTER" spacing="20">
+
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+
+            <GridPane hgap="30" vgap="70">
+
+                <padding>
+                    <Insets topRightBottomLeft="30"/>
+                </padding>
+
+                <HBox spacing="2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label style="-fx-font-weight: bold">Marca</Label>
+                    <JFXComboBox fx:id="brandCombo"/>
+                </HBox>
+
+                <HBox spacing="2" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label style="-fx-font-weight: bold">Versione</Label>
+                    <JFXComboBox fx:id="versionCombo"/>
+                </HBox>
+
+                <HBox spacing="2" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label style="-fx-font-weight: bold">Alimentazione</Label>
+                    <JFXComboBox fx:id="alimCombo"/>
+                </HBox>
+
+                <JFXTextField fx:id="startingFrom" labelFloat="true" promptText="Prezzo base EUR"
+                              GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+                <JFXTextField fx:id="modello" labelFloat="true" promptText="Modello" GridPane.columnIndex="1"
+                              GridPane.rowIndex="0"/>
+
+                <HBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label style="-fx-font-weight: bold">Peso in t</Label>
+                    <HBox spacing="2">
+                        <Spinner fx:id="intPeso" maxWidth="55"/>
+                        <Label text="."/>
+                        <Spinner fx:id="decPeso" maxWidth="55"/>
+                    </HBox>
+                </HBox>
+
+                <JFXTextField fx:id="cilindrata" promptText="Cilindrata" labelFloat="true" GridPane.columnIndex="0"
+                              GridPane.rowIndex="3"/>
+
+                <JFXTextField fx:id="kw" promptText="KW" labelFloat="true" GridPane.columnIndex="1"
+                              GridPane.rowIndex="3"/>
+
+                <ToggleSwitch text="Usata" fx:id="usedSwitch" onMouseClicked="#enableDate" GridPane.columnIndex="0"
+                              GridPane.rowIndex="4"/>
+
+                <JFXDatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            </GridPane>
+
+            <BorderPane>
+                <padding>
+                    <Insets topRightBottomLeft="10"/>
+                </padding>
+                <center>
+                    <ImageView fx:id="imagination"/>
+                </center>
+                <bottom>
+                    <BorderPane>
+                        <padding>
+                            <Insets topRightBottomLeft="10"/>
+                        </padding>
+                        <center>
+                            <JFXButton fx:id="btnLoadPic" alignment="CENTER" contentDisplay="TOP"
+                                       onAction="#selectImage" style="-fx-background-color: dodgerblue"
+                                       text="CARICA FOTO" textFill="white" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="2"/>
+                        </center>
+                    </BorderPane>
+                </bottom>
+            </BorderPane>
+
+        </HBox>
+    </center>
+
+    <bottom>
+        <BorderPane>
+
+            <padding>
+                <Insets topRightBottomLeft="30"/>
+            </padding>
+
+            <right>
+                <JFXButton fx:id="btnAdd" disable="true" onAction="#aggiungi" style="-fx-background-color: green"
+                           text="AGGIUNGI" textFill="white"/>
+            </right>
+
+            <left>
+                <JFXButton onAction="#annulla" style="-fx-background-color: red" text="ANNULLA" textFill="white"/>
+            </left>
+
+        </BorderPane>
+    </bottom>
+
+</BorderPane>

@@ -1,9 +1,8 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
-import it.minoranza.minorgroup.commons.RequestServer;
-import it.minoranza.minorgroup.minorclient.control.Main;
+import it.minoranza.minorgroup.commons.model.RequestClientServer;
+import it.minoranza.minorgroup.minorclient.control.Login;
 import javafx.application.Platform;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,35 +14,41 @@ public class StageOne extends Thread {
 
     private InetAddress ip;
     private int port;
-    private final Main main;
+    private final Login login;
 
-    public StageOne(final Main main) {
-        this.main = main;
+    private volatile boolean run;
+
+    public StageOne(final Login login) {
+        this.login = login;
+        run = true;
     }
 
     @Override
     public void run() {
-        try {
-            final Socket socket = new Socket(ip, port);
-            final OutputStream output = socket.getOutputStream();
-            final PrintWriter pw = new PrintWriter(output, true);
+        while (run) {
+            try {
+                final Socket socket = new Socket(ip, port);
+                final OutputStream output = socket.getOutputStream();
+                final PrintWriter pw = new PrintWriter(output, true);
 
-            pw.println(RequestServer.listaAuto.name());
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    main.itWorked(socket);
-                }
-            });
-            output.close();
-            pw.close();
+                pw.println(RequestClientServer.listaAuto.name());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        login.itWorked(socket);
+                    }
+                });
+                output.close();
+                pw.close();
+                run=false;
+                // pw.close();
+                // output.close();
+                // socket.close();
 
-            // pw.close();
-            // output.close();
-            // socket.close();
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+                run=false;
+            }
         }
     }
 

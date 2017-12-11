@@ -7,35 +7,23 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fx"
             fx:controller="it.minoranza.minorgroup.minorclient.control.Login">
 
-    <center>
-        <VBox spacing="20">
-            <BorderPane>
-                <padding><Insets topRightBottomLeft="5"/></padding>
-                <left>
-                    <Label style="-fx-font-weight: bold" text="Concessionaria"/>
-                </left>
-                <right>
-                    <JFXComboBox fx:id="comboBox"/>
-                    <Label textFill="red" text="nessuna"/>
-                </right>
-            </BorderPane>
-            <BorderPane>
-                <padding><Insets topRightBottomLeft="5"/></padding>
-                <left>
-                    <JFXPasswordField labelFloat="true" promptText="Password"/>
-                </left>
-                <right>
-                    <JFXButton textFill="white" disable="true" onAction="#login" text="ENTRA" style="-fx-background-color: dodgerblue"/>
-                </right>
-            </BorderPane>
+    <top>
+        <VBox spacing="1">
+            <padding>
+                <Insets top="20" left="25" right="25" bottom="30"/>
+            </padding>
+            <Label style="-fx-font-size: 20; -fx-font-weight: bold">Accedi</Label>
+            <Label fx:id="lblDescription">Collegamento al server TCP</Label>
         </VBox>
+    </top>
+
+    <center>
+        <BorderPane fx:id="master">
+            <padding><Insets topRightBottomLeft="5"/></padding>
+        </BorderPane>
     </center>
 
 </BorderPane>

@@ -11,5 +11,6 @@
     <orderEntry type="library" name="commons-io-2.4" level="project" />
     <orderEntry type="library" name="json-20171018" level="project" />
     <orderEntry type="library" name="controlsfx-8.40.14" level="project" />
+    <orderEntry type="library" name="mongodb-driver-3.6.0" level="project" />
   </component>
 </module>

@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.Socket;
+
+import it.minoranza.minorgroup.commons.model.RequestClientServer;
+import it.minoranza.minorgroup.commons.model.RequestDealerServer;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -14,6 +19,7 @@ public class RunVirtualCommunication extends Thread {
 
     private final Socket s;
     private volatile boolean finish;
+    private JSONObject belong;
 
     public RunVirtualCommunication(final Socket s) {
         this.s = s;
@@ -33,6 +39,19 @@ public class RunVirtualCommunication extends Thread {
                 IOUtils.copy(is, buffer);
 
                 System.out.println(buffer.toString());
+
+                belong=new JSONObject(buffer.toString());
+                buffer.close();
+                is.close();
+
+                try{
+                    belong.getString(RequestClientServer.ipClient.name()); //JUST A TEST
+                }catch(JSONException exception){
+                    System.err.println("Too bad!");
+                    //belong.getString(RequestDealerServer.ipAddress.name());
+                    
+                }
+
                 buffer.close();
                 is.close();
                 s.close();
@@ -53,6 +72,10 @@ public class RunVirtualCommunication extends Thread {
                 exc.printStackTrace();
             }*/
         }
+
+    }
+
+    public void refresh(){
 
     }
 

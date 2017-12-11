@@ -1,54 +1,48 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
-import it.minoranza.minorgroup.commons.RequestServer;
-import it.minoranza.minorgroup.commons.ResponseServer;
-import it.minoranza.minorgroup.minorclient.control.Login;
+import it.minoranza.minorgroup.commons.model.ResponseClientServer;
+import it.minoranza.minorgroup.minorclient.control.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.InetAddress;
+import java.io.InputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class StageTwo extends Thread {
 
     private final Socket socket;
-    private final Login login;
-    private String password;
+    private final List login;
+    private volatile boolean run;
 
-    public StageTwo(final Socket socket,final Login login){
-        this.socket=socket;
-        this.login=login;
+    public StageTwo(final Socket socket, final List login) {
+        this.login = login;
+        this.socket = socket;
+        run = true;
     }
 
     @Override
-    public void run(){
-        try{
-            final OutputStream output = socket.getOutputStream();
-            final PrintWriter pw = new PrintWriter(output,true);
-            JSONObject object=new JSONObject();
-            object.put(RequestServer.checkPassword.name(),password);
+    public void run() {
+        while (run) {
+            try {
+                while (true) {
+                    final InputStream is = socket.getInputStream();
+                    System.out.println("see what happens");
+                    final Scanner scanner = new Scanner(is);
+                    final JSONArray array = new JSONObject(scanner.nextLine()).getJSONArray(ResponseClientServer.listDealers.name());
 
-            pw.println(object);
-            pw.close();
-            output.close();
-
-            final Scanner scanner=new Scanner(socket.getInputStream());
-            object=new JSONObject(scanner.nextLine());
-            scanner.close();
-
-            final Socket communication=new Socket(InetAddress.getByName(object.getString(ResponseServer.ipDealer.name())),object.getInt(ResponseServer.portDealer.name()));
-            socket.close();
-        }catch(IOException exc){
-
+                    is.close();
+                    scanner.close();
+                }
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
         }
     }
 
-    public void start(final String password){
-        this.password=password;
-        start();
+    public void boomThread(){
+        run=false;
     }
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.minoranza.minorgroup.minorclient.control.List">
+
+    <center>
+        <VBox spacing="20">
+            <BorderPane>
+                <padding><Insets topRightBottomLeft="5"/></padding>
+                <left>
+                    <Label style="-fx-font-weight: bold" text="Concessionaria"/>
+                </left>
+                <right>
+                    <JFXComboBox fx:id="comboBox"/>
+                    <Label textFill="red" text="nessuna"/>
+                </right>
+            </BorderPane>
+            <BorderPane>
+                <padding><Insets topRightBottomLeft="5"/></padding>
+                <left>
+                    <JFXPasswordField labelFloat="true" promptText="Password" fx:id="txfPassword"/>
+                </left>
+                <right>
+                    <JFXButton textFill="white" disable="true" onAction="#login" text="ENTRA" style="-fx-background-color: dodgerblue" fx:id="btnLogin"/>
+                </right>
+            </BorderPane>
+        </VBox>
+    </center>
+
+</BorderPane>

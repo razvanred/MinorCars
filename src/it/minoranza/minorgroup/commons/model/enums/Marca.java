@@ -27,6 +27,11 @@ public enum Marca {
         return nome;
     }
 
+    @Override
+    public String toString() {
+        return nome;
+    }
+
     public ImageView getLogo() {
         return new ImageView(new Image(getClass().getResourceAsStream(PATH + path)));
     }

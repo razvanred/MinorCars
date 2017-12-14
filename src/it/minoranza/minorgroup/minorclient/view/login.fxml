@@ -7,8 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXButton?>
 <BorderPane xmlns:fx="http://javafx.com/fx"
             fx:controller="it.minoranza.minorgroup.minorclient.control.Login">
+
+    <padding><Insets topRightBottomLeft="15"/></padding>
 
     <top>
         <VBox spacing="1">
@@ -25,5 +28,14 @@
             <padding><Insets topRightBottomLeft="5"/></padding>
         </BorderPane>
     </center>
+
+    <bottom>
+        <BorderPane>
+            <padding><Insets topRightBottomLeft="5"/></padding>
+            <right>
+                <JFXButton fx:id="btnDone" text="AVANTI" style="-fx-background-color: dodgerblue" textFill="white"/>
+            </right>
+        </BorderPane>
+    </bottom>
 
 </BorderPane>

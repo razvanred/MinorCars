@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.layout.HBox?>
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorclient.control.IPServer">
-    <padding><Insets topRightBottomLeft="10"/></padding>
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
     <center>
-        <VBox spacing="20">
+        <HBox spacing="20">
             <JFXTextField fx:id="txfIp" promptText="Indirizzo IP" labelFloat="true">
-                <padding><Insets topRightBottomLeft="5"/></padding>
+                <padding>
+                    <Insets topRightBottomLeft="5"/>
+                </padding>
             </JFXTextField>
-            <BorderPane>
-                <padding><Insets topRightBottomLeft="5"/></padding>
-                <left>
-                    <JFXTextField promptText="Porta" fx:id="txfPort" labelFloat="true"/>
-                </left>
-                <right>
-                    <JFXButton text="FATTO" textFill="white" style="-fx-background-color: dodgerblue" onAction="#getList"/>
-                </right>
-            </BorderPane>
-        </VBox>
+            <JFXTextField promptText="Porta" fx:id="txfPort" labelFloat="true"/>
+        </HBox>
+
     </center>
 </BorderPane>

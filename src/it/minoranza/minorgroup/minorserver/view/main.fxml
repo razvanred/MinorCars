@@ -1,25 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <?import org.controlsfx.control.ToggleSwitch?>
+<?import javafx.scene.layout.HBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="it.minoranza.minorgroup.minorserver.control.Main">
 
-    <padding><Insets topRightBottomLeft="5"/></padding>
+    <padding>
+        <Insets topRightBottomLeft="5"/>
+    </padding>
 
-    <left>
-        <ToggleSwitch onMouseClicked="#switchServer" text="Server TCP"/>
-    </left>
+    <BorderPane>
+        <padding>
+            <Insets topRightBottomLeft="5"/>
+        </padding>
+        <left>
+            <HBox spacing="5">
+                <ToggleSwitch onMouseClicked="#switchServerTCP" text="Server TCP"/>
+                <JFXTextField fx:id="portTCP" promptText="Porta" labelFloat="true"/>
+            </HBox>
+        </left>
 
-    <right>
-        <Label fx:id="lblStatus" textFill="red" text="Server spento :("/>
-    </right>
+        <right>
+            <Label fx:id="lblStatusTCP" textFill="red" text="Server spento :("/>
+        </right>
+    </BorderPane>
+
+    <BorderPane>
+        <padding>
+            <Insets topRightBottomLeft="5"/>
+        </padding>
+        <left>
+            <HBox spacing="5">
+                <ToggleSwitch onMouseClicked="#switchServerTCP" text="Server TCP"/>
+                <JFXTextField fx:id="portUDP" promptText="Porta" labelFloat="true"/>
+            </HBox>
+        </left>
+
+        <right>
+            <Label fx:id="lblStatusUDP" textFill="red" text="Server spento :("/>
+        </right>
+    </BorderPane>
 
 </BorderPane>

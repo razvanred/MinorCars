@@ -1,21 +1,30 @@
-package it.minoranza.minorgroup.commons.control;
+package it.minoranza.minorgroup.minorclient.control;
 
+import com.jfoenix.controls.*;
+import it.minoranza.minorgroup.commons.model.Auto;
+import it.minoranza.minorgroup.commons.model.AutoUsata;
+import it.minoranza.minorgroup.commons.model.Motore;
+import it.minoranza.minorgroup.commons.model.Tipo;
+import it.minoranza.minorgroup.commons.model.enums.Accessorio;
 import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
 import it.minoranza.minorgroup.commons.model.enums.Marca;
 import it.minoranza.minorgroup.commons.model.enums.Versione;
-import com.jfoenix.controls.*;
+import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 import org.controlsfx.control.ToggleSwitch;
 
 import javax.imageio.ImageIO;
@@ -24,18 +33,22 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddCar implements Initializable {
 
     @FXML
-    private JFXComboBox brandCombo;
+    private JFXComboBox<Marca> brandCombo;
 
     @FXML
-    private JFXComboBox versionCombo;
+    private VBox accContainer;
 
     @FXML
-    private JFXComboBox alimCombo;
+    private JFXComboBox<Versione> versionCombo;
+
+    @FXML
+    private JFXComboBox<Alimentazione> alimCombo;
 
     @FXML
     private JFXTextField startingFrom, modello, cilindrata, kw;
@@ -56,18 +69,35 @@ public class AddCar implements Initializable {
     private Spinner<Integer> intPeso;
 
     @FXML
-    private JFXSpinner spinnerCilindrata;
-
-    @FXML
     private ToggleSwitch usedSwitch;
 
     @FXML
     private JFXDatePicker datePicker;
 
-    private AbstractManager next;
+    @FXML
+    private Label finalPrice;
+
+    private JFXCheckBox[] accessori;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        accessori = new JFXCheckBox[Accessorio.values().length];
+
+        for (int i = 0; i < accessori.length; i++) {
+            final Accessorio accessorio = Accessorio.values()[i];
+            final HBox hbox = new HBox();
+            hbox.setSpacing(10);
+            accessori[i] = new JFXCheckBox(accessorio.getDescrizione());
+            accessori[i].setOnAction(event -> calcPrice());
+            accessori[i].setUserData(accessorio);
+            hbox.getChildren().add(accessori[i]);
+            final Label label = new Label("EUR " + accessorio.getPrice());
+            label.setStyle("-fx-font-weight: bold");
+            hbox.getChildren().add(label);
+            accContainer.getChildren().add(hbox);
+        }
+
 
         datePicker.setValue(LocalDate.now());
 
@@ -75,10 +105,10 @@ public class AddCar implements Initializable {
             alimCombo.getItems().add(a);
 
         for (Versione v : Versione.values())
-            versionCombo.getItems().add(v.getDescrizione());
+            versionCombo.getItems().add(v);
 
         for (Marca m : Marca.values())
-            brandCombo.getItems().add(m.getNome());
+            brandCombo.getItems().add(m);
 
         alimCombo.getSelectionModel().selectFirst();
         versionCombo.getSelectionModel().selectFirst();
@@ -96,6 +126,7 @@ public class AddCar implements Initializable {
         startingFrom.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*"))
                 startingFrom.setText(newValue.replaceAll("[^\\d]", ""));
+            calcPrice();
             enableAdd();
         });
 
@@ -130,18 +161,62 @@ public class AddCar implements Initializable {
         decPeso.setValueFactory(factoryDec);
 
         needUp = true;
+        datePicker.setVisible(false);
     }
 
-    public void attachAbstract(final AbstractManager next){
-        this.next=next;
+    private void calcPrice() {
+
+        int price = 0;
+
+        try {
+            price += Integer.parseInt(startingFrom.getText());
+        } catch (NumberFormatException num) {
+            System.err.println("Empty field");
+            //num.printStackTrace();
+        }
+
+        for (int i = 0; i < accessori.length; i++)
+            if (accessori[i].isSelected())
+                price += Accessorio.values()[i].getPrice();
+
+        finalPrice.setText("" + price);
     }
 
     public void aggiungi(ActionEvent ae) {
-        next.save();
-    }
+        final Auto auto;
+        float peso = decPeso.getValue() / 100;
+        peso += intPeso.getValue();
 
-    public void annulla(ActionEvent ae) {
-        ((Stage) ((Node) ae.getSource()).getScene().getWindow()).close();
+        ArrayList<Accessorio> acc = new ArrayList<>();
+        for (JFXCheckBox anAccessori : accessori)
+            if (anAccessori.isSelected())
+                acc.add((Accessorio) anAccessori.getUserData());
+
+        Accessorio[] ac = new Accessorio[acc.size()];
+        for (int i = 0; i < acc.size(); i++)
+            ac[i] = acc.get(i);
+
+        if (!usedSwitch.isSelected())
+            auto = new Auto(brandCombo.getValue(), modello.getText().trim(), new Motore(alimCombo.getValue(), Integer.parseInt(cilindrata.getText()), Integer.parseInt(kw.getText())), new Tipo(versionCombo.getValue(), peso), Integer.parseInt(startingFrom.getText()), ac);
+        else {
+            auto = new AutoUsata(brandCombo.getValue(), modello.getText().trim(), new Motore(alimCombo.getValue(), Integer.parseInt(cilindrata.getText()), Integer.parseInt(kw.getText())), new Tipo(versionCombo.getValue(), peso), Integer.parseInt(startingFrom.getText()), ac, datePicker.getValue());
+            System.err.println("used");
+        }
+        try {
+            GestoreFile.inserimento(auto, GestoreFile.List.onSale);
+            System.out.println("OK");
+            resetFields();
+            Notifications.create()
+                    .title("Fatto")
+                    .text("Salvato su file")
+                    .showInformation();
+        } catch (Exception exc) {
+            Notifications.create()
+                    .title("Attenzione")
+                    .text("Il salvataggio su file è fallito")
+                    .showWarning();
+            System.out.println("am i wrong");
+        }
     }
 
     public void selectImage(ActionEvent ae) {
@@ -188,6 +263,21 @@ public class AddCar implements Initializable {
 
     private void enableAdd() {
         btnAdd.setDisable(startingFrom.getText().isEmpty() || modello.getText().trim().isEmpty() || kw.getText().isEmpty() || cilindrata.getText().isEmpty());
+    }
+
+    public void resetFields() {
+        alimCombo.getSelectionModel().selectFirst();
+        brandCombo.getSelectionModel().selectFirst();
+        versionCombo.getSelectionModel().selectFirst();
+        startingFrom.setText("");
+        modello.setText("");
+        cilindrata.setText("");
+        kw.setText("");
+        for (CheckBox c : accessori)
+            c.setSelected(false);
+        usedSwitch.setSelected(false);
+        datePicker.setValue(LocalDate.now());
+        datePicker.setVisible(false);
     }
 
 }

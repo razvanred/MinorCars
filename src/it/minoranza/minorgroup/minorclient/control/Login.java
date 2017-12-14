@@ -1,5 +1,6 @@
 package it.minoranza.minorgroup.minorclient.control;
 
+import com.jfoenix.controls.JFXButton;
 import it.minoranza.minorgroup.minorclient.control.threads.StageOne;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,9 @@ public class Login implements Initializable {
     private Parent rootIPServer,rootLogin;
     private IPServer ipController;
     private List loginController;
+
+    @FXML
+    private JFXButton btnDone;
 
     @FXML
     private BorderPane master;

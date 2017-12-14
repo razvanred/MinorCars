@@ -22,7 +22,7 @@ public class Principale extends Application {
         final FXMLLoader loader=new FXMLLoader(getClass().getResource("view/login.fxml"));
         final Parent root = loader.load();
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Collegamento al server");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 

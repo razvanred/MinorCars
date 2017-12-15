@@ -1,9 +1,8 @@
 package it.minoranza.minorgroup.minorclient.control;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import it.minoranza.minorgroup.minorclient.control.threads.StageOne;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextFormatter;
@@ -21,8 +20,10 @@ public class IPServer implements Initializable {
     @FXML
     private JFXTextField txfIp,txfPort;
 
-    public IPServer(){
+    private JFXButton btnNext;
 
+    public void attachBtnNext(final JFXButton btnNext){
+        this.btnNext=btnNext;
     }
 
     @Override
@@ -40,11 +41,11 @@ public class IPServer implements Initializable {
         txfPort.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*"))
                 txfPort.setText(newValue.replaceAll("[^\\d]", ""));
+            btnNext.setDisable(txfIp.getText().isEmpty()||newValue.isEmpty());
         });
 
         txfIp.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(txfPort.getText().isEmpty())
-
+            btnNext.setDisable(txfPort.getText().isEmpty()||newValue.isEmpty());
         });
     }
 

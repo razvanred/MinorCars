@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorserver.control.Server">
+
+    <padding><Insets topRightBottomLeft="5"/></padding>
+
+    <left>
+        <JFXTextField fx:id="txfPort" labelFloat="true"/>
+    </left>
+
+    <right>
+        <ToggleButton onAction="#startStop"/>
+    </right>
+
+</BorderPane>

@@ -34,6 +34,7 @@ public class Login implements Initializable {
     public void initialize(final URL location, final ResourceBundle resources) {
         master.setCenter(rootIPServer);
         ipController.attachThread(thread);
+        ipController.attachBtnNext(btnDone);
     }
 
     public Login(){
@@ -42,6 +43,8 @@ public class Login implements Initializable {
             FXMLLoader load = new FXMLLoader(getClass().getResource("../view/ipserver.fxml"));
             rootIPServer=load.load();
             ipController=load.getController();
+
+
 
 
             load=new FXMLLoader(getClass().getResource("../view/list.fxml"));
@@ -57,4 +60,5 @@ public class Login implements Initializable {
         loginController.attachSocket(socket);
         master.setCenter(rootLogin);
     }
+
 }

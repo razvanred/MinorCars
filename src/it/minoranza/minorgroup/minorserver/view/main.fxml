@@ -1,50 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+
 <?import javafx.scene.layout.BorderPane?>
-<?import org.controlsfx.control.ToggleSwitch?>
-<?import javafx.scene.layout.HBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.minoranza.minorgroup.minorserver.control.Main">
 
-    <padding>
-        <Insets topRightBottomLeft="5"/>
-    </padding>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorserver.control.Main">
 
-    <BorderPane>
-        <padding>
-            <Insets topRightBottomLeft="5"/>
-        </padding>
-        <left>
-            <HBox spacing="5">
-                <ToggleSwitch onMouseClicked="#switchServerTCP" text="Server TCP"/>
-                <JFXTextField fx:id="portTCP" promptText="Porta" labelFloat="true"/>
-            </HBox>
-        </left>
+    <padding><Insets topRightBottomLeft="25"/></padding>
 
-        <right>
-            <Label fx:id="lblStatusTCP" textFill="red" text="Server spento :("/>
-        </right>
-    </BorderPane>
+    <top>
+        <VBox spacing="1">
+            <padding>
+                <Insets top="20" left="25" right="25" bottom="30"/>
+            </padding>
+            <Label style="-fx-font-size: 20; -fx-font-weight: bold">Server</Label>
+            <Label>Gestione delle connessioni</Label>
+        </VBox>
+    </top>
 
-    <BorderPane>
-        <padding>
-            <Insets topRightBottomLeft="5"/>
-        </padding>
-        <left>
-            <HBox spacing="5">
-                <ToggleSwitch onMouseClicked="#switchServerTCP" text="Server TCP"/>
-                <JFXTextField fx:id="portUDP" promptText="Porta" labelFloat="true"/>
-            </HBox>
-        </left>
-
-        <right>
-            <Label fx:id="lblStatusUDP" textFill="red" text="Server spento :("/>
-        </right>
-    </BorderPane>
+    <center>
+        <VBox spacing="10" fx:id="container">
+            <padding><Insets topRightBottomLeft="25"/></padding>
+        </VBox>
+    </center>
 
 </BorderPane>

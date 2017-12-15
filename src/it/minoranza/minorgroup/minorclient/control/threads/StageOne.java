@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -28,23 +30,22 @@ public class StageOne extends Thread {
     public void run() {
         while (run) {
             try {
-                final Socket socket = new Socket(ip, port);
-                final OutputStream output = socket.getOutputStream();
-                final PrintWriter pw = new PrintWriter(output, true);
+                JSONObject request=new JSONObject();
+                request.put(RequestClientServer.letMeIn.name(),true);
+                DatagramSocket ds=new DatagramSocket();
+                byte[] message=request.toString().getBytes();
 
-                pw.println(RequestClientServer.letMeIn.name());
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        login.itWorked(socket);
-                    }
-                });
-                output.close();
-                pw.close();
-                run=false;
-                // pw.close();
-                // output.close();
-                // socket.close();
+                DatagramPacket packet=new DatagramPacket(message,message.length,ip,port);
+
+                byte[] res=new byte[2048];
+                DatagramPacket response=new DatagramPacket(res,res.length);
+
+                ds.send(packet);
+
+                while(true){
+                    ds.receive(response);
+                    System.err.println("GOT IT");
+                }
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -58,5 +59,4 @@ public class StageOne extends Thread {
         this.ip = ip;
         start();
     }
-
 }

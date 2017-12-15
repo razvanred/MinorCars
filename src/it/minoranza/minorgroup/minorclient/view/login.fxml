@@ -33,7 +33,7 @@
         <BorderPane>
             <padding><Insets topRightBottomLeft="5"/></padding>
             <right>
-                <JFXButton fx:id="btnDone" text="AVANTI" style="-fx-background-color: dodgerblue" textFill="white"/>
+                <JFXButton fx:id="btnDone" text="AVANTI" style="-fx-background-color: dodgerblue" textFill="white" disable="true"/>
             </right>
         </BorderPane>
     </bottom>

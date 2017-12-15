@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.chart.BarChart?>
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minordealer.control.Main">
 
     <left>
+        <VBox spacing="40">
 
+            <VBox spacing="1">
+
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold">Server</Label>
+                <Label>Gestione delle connessioni</Label>
+            </VBox>
+
+            <padding>
+                <Insets top="20" left="25" right="25" bottom="30"/>
+            </padding>
+
+            <VBox spacing="25">
+                <JFXTextField fx:id="txfIP" labelFloat="true" promptText="Indirizzo IP"/>
+                <JFXTextField fx:id="txfPort" labelFloat="true" promptText="Numero porta"/>
+            </VBox>
+            <!--<VBox spacing="25">
+                <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="Username"/>
+                <JFXTextField fx:id="txfPassword" labelFloat="true" promptText="Imposta password"/>
+            </VBox>-->
+
+            <JFXButton fx:id="btnTCP" textFill="white" style="-fx-background-color: dodgerblue" onAction="#openConnection" text="CONNETTI"/>
+        </VBox>
     </left>
+
+    <center>
+
+    </center>
 
     <center>
 

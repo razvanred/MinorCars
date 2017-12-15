@@ -23,7 +23,7 @@ public class UDPThread extends Thread {
                 DatagramPacket packet=new DatagramPacket(buff,buff.length);
                 socket.receive(packet);
             }catch(IOException io){
-
+                io.printStackTrace();
             }
 
         }

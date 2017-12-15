@@ -63,5 +63,15 @@ public class Motore {
         return result;
     }
 
+    public JSONObject toJSON(){
+        final JSONObject object=new JSONObject();
+
+        object.put(EngineJSON.alimentazione.name(),alimentazione);
+        object.put(EngineJSON.cilindrata.name(),cilindrata);
+        object.put(EngineJSON.kw.name(),kw);
+
+        return object;
+    }
+
 
 }

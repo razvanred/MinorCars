@@ -55,4 +55,12 @@ public class Tipo implements Serializable {
         versione,
         tonn
     }
+
+    public JSONObject toJSON(){
+        JSONObject object=new JSONObject();
+        object.put(TipoJSON.versione.name(),versione.name());
+        object.put(TipoJSON.tonn.name(),tonn);
+
+        return object;
+    }
 }

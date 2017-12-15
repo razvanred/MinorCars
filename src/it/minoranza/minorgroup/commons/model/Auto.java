@@ -43,6 +43,23 @@ public class Auto implements Serializable {
         price=object.getInt(CarJSON.price.name());
     }
 
+    public JSONObject toJSON(){
+        JSONObject object=new JSONObject();
+        object.put(CarJSON.marca.name(),marca);
+        object.put(CarJSON.modello.name(),modello);
+        object.put(CarJSON.motore.name(),motore.toJSON());
+        object.put(CarJSON.price.name(),price);
+        object.put(CarJSON.tipo.name(),tipo.toJSON());
+
+        JSONArray arr=new JSONArray();
+        for(Accessorio a:accessori)
+            arr.put(a);
+
+        object.put(CarJSON.accessori.name(),arr);
+
+        return object;
+    }
+
     public final Marca getMarca() {
         return marca;
     }

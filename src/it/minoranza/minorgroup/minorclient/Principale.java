@@ -5,21 +5,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 
 import java.io.IOException;
 
 public class Principale extends Application {
 
+    public static final JSONArray arr=new JSONArray();
+
     public static void main(String[] args) {
-
         launch(args);
-
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException{
 
-        final FXMLLoader loader=new FXMLLoader(getClass().getResource("view/login.fxml"));
+        final FXMLLoader loader=new FXMLLoader(getClass().getResource("view/chooseport.fxml"));
         final Parent root = loader.load();
 
         primaryStage.setTitle("Collegamento al server - MinorGroup");

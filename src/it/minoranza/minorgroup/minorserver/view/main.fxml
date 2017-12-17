@@ -1,29 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.layout.BorderPane?>
-
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorserver.control.Main">
 
-    <padding><Insets topRightBottomLeft="25"/></padding>
+    <padding><Insets topRightBottomLeft="20"/></padding>
 
     <top>
         <VBox spacing="1">
-            <padding>
-                <Insets top="20" left="25" right="25" bottom="30"/>
-            </padding>
+            <padding><Insets bottom="20"/> </padding>
             <Label style="-fx-font-size: 20; -fx-font-weight: bold">Server</Label>
             <Label>Gestione delle connessioni</Label>
         </VBox>
     </top>
 
     <center>
-        <VBox spacing="10" fx:id="container">
-            <padding><Insets topRightBottomLeft="25"/></padding>
+        <VBox spacing="10">
+
+            <padding><Insets topRightBottomLeft="20"/></padding>
+
+            <BorderPane>
+                <padding><Insets topRightBottomLeft="10"/></padding>
+                <left>
+                    <HBox spacing="5">
+                        <JFXTextField fx:id="txfPortUDP" promptText="Porta UDP" labelFloat="true"/>
+                        <JFXTextField fx:id="txfPortUDPClient" promptText="Porta UDP client" labelFloat="true"/>
+                    </HBox>
+                </left>
+
+                <right>
+                    <JFXToggleButton fx:id="btnUDP" text="UDP" disable="true" onAction="#startStopUDP"/>
+                </right>
+            </BorderPane>
+
+            <BorderPane>
+                <padding><Insets topRightBottomLeft="10"/></padding>
+                <left>
+                    <JFXTextField fx:id="txfPortTCP" promptText="Porta TCP" labelFloat="true"/>
+                </left>
+                <right>
+                    <JFXToggleButton fx:id="btnTCP" text="TCP" disable="true" onAction="#startStopTCP"/>
+                </right>
+            </BorderPane>
+
         </VBox>
     </center>
 

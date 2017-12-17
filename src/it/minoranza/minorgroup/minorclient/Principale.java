@@ -20,7 +20,7 @@ public class Principale extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException{
 
-        final FXMLLoader loader=new FXMLLoader(getClass().getResource("view/chooseport.fxml"));
+        final FXMLLoader loader=new FXMLLoader(getClass().getResource("view/listeningserver.fxml"));
         final Parent root = loader.load();
 
         primaryStage.setTitle("Collegamento al server - MinorGroup");

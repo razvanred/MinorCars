@@ -1,7 +1,9 @@
 package it.minoranza.minorgroup.minordealer.control;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -18,7 +20,10 @@ public class Main implements Initializable {
     private UDPThread thread;
 
     @FXML
-    private JFXTextField txfIP,txfPort;
+    private JFXTextField txfIP,txfPort,txfName;
+
+    @FXML
+    private JFXPasswordField tpfPassword;
 
     @FXML
     private JFXButton btnTCP;
@@ -33,11 +38,13 @@ public class Main implements Initializable {
                 btnTCP.setDisable(txfPassword.getText().isEmpty()||txfUsername.getText().isEmpty())
         );*/
 
+        btnTCP.setDisable(true);
+
         txfPort.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 txfPort.setText(newValue.replaceAll("[^\\d]", ""));
             }
-            btnTCP.setDisable(txfIP.getText().isEmpty()||txfPort.getText().isEmpty());
+            btnTCP.setDisable(txfIP.getText().isEmpty()||txfPort.getText().isEmpty()||txfName.getText().trim().isEmpty());
         });
 
         final String regex = makePartialIPRegex();
@@ -52,8 +59,12 @@ public class Main implements Initializable {
         txfIP.setTextFormatter(new TextFormatter<>(ipAddressFilter));
 
         txfPort.textProperty().addListener((observable, oldValue, newValue) ->
-                btnTCP.setDisable(txfIP.getText().isEmpty()||txfPort.getText().isEmpty())
+                btnTCP.setDisable(txfIP.getText().isEmpty()||txfPort.getText().isEmpty()||txfName.getText().trim().isEmpty())
         );
+
+        txfName.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnTCP.setDisable(txfIP.getText().isEmpty()||txfPort.getText().isEmpty()||txfName.getText().trim().isEmpty());
+        });
 
     }
 
@@ -73,5 +84,11 @@ public class Main implements Initializable {
         }
     }
 
+    public final String getPasskey(){
+        return tpfPassword.getText();
+    }
 
+    public String getName(){
+        return txfName.getText().trim();
+    }
 }

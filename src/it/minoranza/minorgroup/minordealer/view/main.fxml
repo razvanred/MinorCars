@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.chart.BarChart?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minordealer.control.Main">
 
     <left>
@@ -15,7 +16,7 @@
 
             <VBox spacing="1">
 
-                <Label style="-fx-font-size: 20; -fx-font-weight: bold">Server</Label>
+                <Label style="-fx-font-size: 20; -fx-font-weight: bold">Concessionaria</Label>
                 <Label>Gestione delle connessioni</Label>
             </VBox>
 
@@ -26,6 +27,8 @@
             <VBox spacing="25">
                 <JFXTextField fx:id="txfIP" labelFloat="true" promptText="Indirizzo IP"/>
                 <JFXTextField fx:id="txfPort" labelFloat="true" promptText="Numero porta"/>
+                <JFXTextField fx:id="txfName" labelFloat="true" promptText="Nome concessionaria"/>
+                <JFXPasswordField fx:id="tpfPassword" labelFloat="true" promptText="Assegna password"/>
             </VBox>
             <!--<VBox spacing="25">
                 <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="Username"/>

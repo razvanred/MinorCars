@@ -42,14 +42,11 @@ public class Main implements Initializable{
         }
         sold = loader.getController();
 
-        tabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue() == 0)
-                    onSale.refreshData();
-                else if (newValue.intValue() == 2)
-                    sold.refreshData();
-            }
+        tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() == 0)
+                onSale.refreshData();
+            else if (newValue.intValue() == 2)
+                sold.refreshData();
         });
 
     }

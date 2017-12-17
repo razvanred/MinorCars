@@ -1,13 +1,13 @@
 package it.minoranza.minorgroup.minorclient.control;
 
-import javafx.fxml.Initializable;
+import it.minoranza.minorgroup.minordealer.Principale;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class UDPListener extends Thread {
 
@@ -15,38 +15,49 @@ public class UDPListener extends Thread {
     private volatile boolean run;
 
 
-    public UDPListener(){
+    public UDPListener() {
 
-        run=true;
+        run = true;
     }
 
     @Override
-    public void run(){
-        while(run){
+    public void run() {
+        while (run) {
 
-            try{
+            try {
 
-                byte list[]=new byte[1024];
-                DatagramPacket datagramPacket=new DatagramPacket(list,list.length);
+                byte list[] = new byte[1024];
+                DatagramPacket datagramPacket = new DatagramPacket(list, list.length);
                 datagramSocket.receive(datagramPacket);
 
-                System.out.println(new String(datagramPacket.getData(),0,datagramPacket.getLength()));
+                System.out.println(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
 
+                Platform.runLater(() -> {
+                    Principale.stage.close();
 
-            }catch(IOException io){
+                    FXMLLoader loader=new FXMLLoader(getClass().getResource("../view/"));
 
+                });
+
+                run = false;
+
+            } catch (IOException io) {
+                io.printStackTrace();
+                run = false;
             }
 
         }
-        datagramSocket.close();
+        System.err.println("closing");
+
     }
 
-    public void boom(){
-        run=false;
+    public void boom() {
+        datagramSocket.close();
+        run = false;
     }
 
     public void startOperations(final int port) throws SocketException {
-        datagramSocket=new DatagramSocket(port);
+        datagramSocket = new DatagramSocket(port);
         start();
     }
 }

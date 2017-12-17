@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ToggleButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorclient.control.ListeningServer">
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+    <center>
+        <BorderPane>
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <top>
+                <BorderPane>
+                    <padding>
+                        <Insets topRightBottomLeft="10"/>
+                    </padding>
+                    <top>
+                        <BorderPane>
+                            <padding>
+                                <Insets bottom="10"/>
+                            </padding>
+                            <left>
+                                <VBox spacing="1">
+                                    <Label style="-fx-font-size: 20; -fx-font-weight: bold">Accedi</Label>
+                                    <Label fx:id="lblStatus">Avvio server UDP</Label>
+                                </VBox>
+                            </left>
+                            <right>
+                                <JFXSpinner fx:id="spinner" visible="false"/>
+                            </right>
+                        </BorderPane>
+                    </top>
+                    <left>
+                        <VBox>
+                            <padding><Insets top="10"/> </padding>
+                            <JFXTextField promptText="Ascoltando" fx:id="txfPort" labelFloat="true"/>
+                        </VBox>
+                    </left>
+                    <right>
+                        <VBox>
+                            <padding><Insets top="10"/> </padding>
+                            <ToggleButton text="VIA" onAction="#startListening" fx:id="btnListen"/>
+                        </VBox>
+
+
+                    </right>
+                </BorderPane>
+            </top>
+
+            <center>
+                <BorderPane>
+                    <padding>
+                        <Insets topRightBottomLeft="10"/>
+                    </padding>
+                    <left>
+                        <JFXListView fx:id="listDealers"/>
+                    </left>
+                    <right>
+                        <HBox spacing="80">
+                            <JFXPasswordField labelFloat="true" promptText="Password" fx:id="txfPassword"
+                                              disable="true"/>
+                            <JFXButton text="ACCEDI" style="-fx-background-color: dodgerblue" textFill="white"
+                                       fx:id="btnConn" disable="true" onAction="#connectionToServer"/>
+                        </HBox>
+                    </right>
+                </BorderPane>
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

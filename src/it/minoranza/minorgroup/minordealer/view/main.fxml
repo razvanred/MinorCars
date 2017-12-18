@@ -31,7 +31,7 @@
                 <JFXTextField fx:id="txfPassword" labelFloat="true" promptText="Imposta password"/>
             </VBox>-->
 
-            <JFXButton fx:id="btnTCP" textFill="white" style="-fx-background-color: dodgerblue" onAction="#openConnection" text="CONNETTI"/>
+            <JFXToggleButton fx:id="btnTCP" textFill="white" style="-fx-background-color: dodgerblue" onAction="#openConnection" text="Cennessione TCP"/>
         </VBox>
     </left>
 

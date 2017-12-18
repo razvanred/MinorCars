@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.minordealer.control;
 
+import it.minoranza.minorgroup.commons.model.Auto;
 import it.minoranza.minorgroup.minorclient.control.AppendObjectOutputStream;
-import it.minoranza.minorgroup.minorclient.model.Auto;
 
 import java.io.*;
 import java.util.ArrayList;

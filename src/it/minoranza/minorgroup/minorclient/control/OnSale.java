@@ -1,6 +1,6 @@
 package it.minoranza.minorgroup.minorclient.control;
 
-import it.minoranza.minorgroup.minorclient.model.Auto;
+import it.minoranza.minorgroup.commons.model.Auto;
 import it.minoranza.minorgroup.commons.model.RowAuto;
 import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import javafx.event.ActionEvent;

@@ -1,8 +1,8 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.*;
-import it.minoranza.minorgroup.minorclient.model.Auto;
-import it.minoranza.minorgroup.minorclient.model.AutoUsata;
+import it.minoranza.minorgroup.commons.model.Auto;
+import it.minoranza.minorgroup.commons.model.AutoUsata;
 import it.minoranza.minorgroup.commons.model.Motore;
 import it.minoranza.minorgroup.commons.model.Tipo;
 import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;

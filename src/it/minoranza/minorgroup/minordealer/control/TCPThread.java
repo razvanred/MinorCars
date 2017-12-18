@@ -7,19 +7,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class TCPThread extends Thread {
 
-    private final Socket socket;
+    private Socket socket;
     private Main main;
     private volatile boolean boom;
     private final String name,password;
+    private final InetAddress address;
+    private final int port;
 
     public TCPThread(final Main main) throws IOException {
-        socket=new Socket(main.getAddress(),main.getPort());
-        socket.setSoTimeout(0);
+
+        address=main.getAddress();
+        port=main.getPort();
+
         boom=false;
         name=main.getName().trim();
         password=main.getPasskey();
@@ -30,6 +35,9 @@ public class TCPThread extends Thread {
     public void run(){
         while(!boom) {
             try {
+                socket=new Socket(address,port);
+                socket.setSoTimeout(0);
+
                 final OutputStream out = socket.getOutputStream();
                 final PrintWriter wr = new PrintWriter(out,true);
 
@@ -45,7 +53,7 @@ public class TCPThread extends Thread {
 
                 System.out.println("looking ok");
 
-                //System.out.println(scanner.nextLine());
+                System.out.println(scanner.nextLine());
                 boom=true;
                 socket.close();
 

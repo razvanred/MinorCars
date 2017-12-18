@@ -5,6 +5,8 @@ package it.minoranza.minorgroup.commons.model;
 import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
 import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
 import it.minoranza.minorgroup.minorclient.model.enums.Marca;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -17,6 +19,15 @@ public class Auto implements Serializable {
     private final Tipo tipo;
     private final int price;
     private final Accessorio[] accessori;
+
+    public enum AutoParams{
+        modello,
+        marca,
+        motore,
+        tipo,
+        price,
+        accessori
+    }
 
     public Auto(final Marca marca, final String modello, final Motore motore, final Tipo tipo, final int price, final Accessorio[] accessori) {
         this.modello = modello;
@@ -66,6 +77,24 @@ public class Auto implements Serializable {
             price += a.getPrice();
 
         return price;
+    }
+
+    public JSONObject toJSON(){
+        final JSONObject object=new JSONObject();
+
+        object.put(AutoParams.modello.name(),modello);
+        object.put(AutoParams.marca.name(),marca.name());
+        object.put(AutoParams.motore.name(),motore.toJSON());
+        object.put(AutoParams.tipo.name(),tipo.toJSON());
+        object.put(AutoParams.price.name(),price);
+
+        final JSONArray array=new JSONArray();
+        for(Accessorio a:accessori)
+            array.put(a.name());
+
+        object.put(AutoParams.accessori.name(),array);
+
+        return object;
     }
 
     @Override

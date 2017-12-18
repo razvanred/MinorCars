@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.minordealer.control;
 
+import it.minoranza.minorgroup.commons.model.Auto;
 import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
-import it.minoranza.minorgroup.minorclient.model.Auto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

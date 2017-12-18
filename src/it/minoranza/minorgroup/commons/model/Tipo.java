@@ -1,6 +1,7 @@
 package it.minoranza.minorgroup.commons.model;
 
 import it.minoranza.minorgroup.minorclient.model.enums.Versione;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -9,6 +10,11 @@ public class Tipo implements Serializable {
 
     private Versione versione;
     private float tonn;
+
+    public enum TipoParams{
+        versione,
+        tonn
+    }
 
     public Tipo(Versione versione, float peso) {
         this.versione = versione;
@@ -43,5 +49,13 @@ public class Tipo implements Serializable {
         int result = versione != null ? versione.hashCode() : 0;
         result = 31 * result + (tonn != +0.0f ? Float.floatToIntBits(tonn) : 0);
         return result;
+    }
+
+    public final JSONObject toJSON(){
+        final JSONObject object=new JSONObject();
+        object.put(TipoParams.versione.name(),versione.name());
+        object.put(TipoParams.tonn.name(),tonn);
+
+        return object;
     }
 }

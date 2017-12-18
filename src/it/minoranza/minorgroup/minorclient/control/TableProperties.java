@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.JFXCheckBox;
-import it.minoranza.minorgroup.minorclient.model.Auto;
+import it.minoranza.minorgroup.commons.model.Auto;
 import it.minoranza.minorgroup.commons.model.RowAuto;
 import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
 import it.minoranza.minorgroup.minorclient.model.enums.Versione;

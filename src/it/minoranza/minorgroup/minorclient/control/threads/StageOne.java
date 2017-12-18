@@ -1,13 +1,20 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
-import it.minoranza.minorgroup.commons.model.RequestClientServer;
+import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
 import it.minoranza.minorgroup.minorclient.control.ListeningServer;
+import it.minoranza.minorgroup.minorclient.control.Main;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 public class StageOne extends Thread {
 
@@ -46,7 +53,42 @@ public class StageOne extends Thread {
 
                 while(true){
                     ds.receive(response);
-                    System.err.println("GOT IT");
+                    final String json=new String(response.getData(),0,response.getLength());
+
+                    try{
+                        //JSONArray object=new JSONObject(json).getJSONArray(ResponseClientServer.listDealers.name());
+                        JSONArray array=new JSONArray();
+                        JSONObject object=new JSONObject(json);
+                        array.put(object.getString(DealerToServer.nameDealer.name()));
+                        Platform.runLater(new Runnable(){
+                            @Override
+                            public void run(){
+
+                                ls.changeList(array);
+                                Stage stage=new Stage();
+                                try {
+                                    ls.close();
+                                    FXMLLoader loader=new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/main.fxml"));
+                                    Parent root=loader.load();
+                                    stage.setScene(new Scene(root,1240, 850));
+                                    Main main=loader.getController();
+                                    StageTwo two=new StageTwo(ds,response,main);
+                                    main.attachSecond(two);
+                                    stage.show();
+
+                                    run=false;
+                                    two.start();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }catch(JSONException exc){
+                        exc.printStackTrace();
+                    }
+
+                    //System.err.println("GOT IT");
                 }
 
             } catch (IOException ioException) {

@@ -1,14 +1,14 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.*;
-import it.minoranza.minorgroup.commons.model.Auto;
-import it.minoranza.minorgroup.commons.model.AutoUsata;
+import it.minoranza.minorgroup.minorclient.model.Auto;
+import it.minoranza.minorgroup.minorclient.model.AutoUsata;
 import it.minoranza.minorgroup.commons.model.Motore;
 import it.minoranza.minorgroup.commons.model.Tipo;
-import it.minoranza.minorgroup.commons.model.enums.Accessorio;
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-import it.minoranza.minorgroup.commons.model.enums.Marca;
-import it.minoranza.minorgroup.commons.model.enums.Versione;
+import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.minorclient.model.enums.Marca;
+import it.minoranza.minorgroup.minorclient.model.enums.Versione;
 import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -269,12 +269,12 @@ public class AddCar implements Initializable {
         alimCombo.getSelectionModel().selectFirst();
         brandCombo.getSelectionModel().selectFirst();
         versionCombo.getSelectionModel().selectFirst();
-        startingFrom.setText("");
         modello.setText("");
         cilindrata.setText("");
         kw.setText("");
         for (CheckBox c : accessori)
             c.setSelected(false);
+        startingFrom.setText("");
         usedSwitch.setSelected(false);
         datePicker.setValue(LocalDate.now());
         datePicker.setVisible(false);

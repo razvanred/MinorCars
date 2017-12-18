@@ -23,6 +23,8 @@ public class Main implements Initializable {
 
     private ServerSocket ss;
 
+    private TCPThread tcp;
+    public static UDPThread udp;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -34,7 +36,7 @@ public class Main implements Initializable {
                 if (!newValue.matches("\\d*"))
                     txfPortUDP.setText(newValue.replaceAll("[^\\d]", ""));
 
-                btnUDP.setDisable(checkEquals()||checkPort(txfPortUDP) || checkPort(txfPortUDPClient));
+                btnUDP.setDisable(checkEqualsUDP()||checkPort(txfPortUDP) || checkPort(txfPortUDPClient));
             }
         });
 
@@ -43,7 +45,7 @@ public class Main implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*"))
                     txfPortUDPClient.setText(newValue.replaceAll("[^\\d]", ""));
-                btnUDP.setDisable(checkEquals()||checkPort(txfPortUDP) || checkPort(txfPortUDPClient));
+                btnUDP.setDisable(checkEqualsUDP()||checkPort(txfPortUDP) || checkPort(txfPortUDPClient));
             }
         });
 
@@ -52,38 +54,63 @@ public class Main implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*"))
                     txfPortTCP.setText(newValue.replaceAll("[^\\d]", ""));
-                btnTCP.setDisable(checkEquals()||checkPort(txfPortTCP));
+                btnTCP.setDisable(checkEqualsUDP()||!btnUDP.isSelected()||checkPort(txfPortTCP));
             }
         });
 
     }
 
-    private boolean checkEquals() {
+    private boolean checkEqualsUDP() {
 
-        return Integer.parseInt(txfPortUDP.getText()) == Integer.parseInt(txfPortUDPClient.getText()) || Integer.parseInt(txfPortUDPClient.getText()) == Integer.parseInt(txfPortTCP.getText()) || Integer.parseInt(txfPortUDP.getText()) == Integer.parseInt(txfPortTCP.getText());
+        return Integer.parseInt(txfPortUDP.getText()) == Integer.parseInt(txfPortUDPClient.getText());
     }
 
     private boolean checkPort(final TextField txf) {
         return txf.getText().isEmpty() || Integer.parseInt(txf.getText()) < 1024 || Integer.parseInt(txf.getText()) > 49151;
     }
 
+    public final int getPortTCP(){
+        return Integer.parseInt(txfPortTCP.getText());
+    }
+
+    public final int getPortUDP(){
+        return Integer.parseInt(txfPortUDP.getText());
+    }
+
     @FXML
     private void startStopTCP(){
-        try {
-            if (btnTCP.isSelected()) {
-                ss = new ServerSocket(Integer.parseInt(txfPortTCP.getText()));
-                while(true){
-                    new RunVirtualCommunication(ss.accept()).start();
-                }
+        System.err.println("tcp started");
+        if(btnTCP.isSelected()){
+            try {
+                tcp=new TCPThread(this);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }catch(IOException io){
+        }else{
             btnTCP.setSelected(false);
+            if(tcp!=null)
+                tcp.boom();
         }
+    }
+
+    public final int getPortUDPClient(){
+        return Integer.parseInt(txfPortUDPClient.getText());
     }
 
     @FXML
     private void startStopUDP(){
-
+        System.err.println("udp started");
+        if(btnUDP.isSelected()) {
+            try {
+                udp = new UDPThread(this);
+                udp.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            if(udp!=null)
+                udp.boom();
+        }
     }
 
 }

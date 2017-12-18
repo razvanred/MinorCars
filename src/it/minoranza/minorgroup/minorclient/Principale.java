@@ -24,7 +24,7 @@ public class Principale extends Application {
         final Parent root = loader.load();
 
         primaryStage.setTitle("Collegamento al server - MinorGroup");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 600, 475));
         primaryStage.show();
 
     }

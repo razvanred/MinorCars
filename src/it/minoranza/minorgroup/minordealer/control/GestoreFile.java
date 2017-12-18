@@ -1,11 +1,14 @@
 package it.minoranza.minorgroup.minordealer.control;
 
-import it.minoranza.minorgroup.commons.model.Auto;
+import it.minoranza.minorgroup.minorclient.control.AppendObjectOutputStream;
+import it.minoranza.minorgroup.minorclient.model.Auto;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public final class GestoreFile {
+
+    private static final String ext = ".dat";
 
     public static void inserimento(final Auto t, final List list) throws Exception {
 
@@ -30,10 +33,9 @@ public final class GestoreFile {
 
     }
 
-    private static final String ext = ".dat";
-
     public static ArrayList<Auto> read(final List list) throws Exception {
         final ArrayList<Auto> auto = new ArrayList<>();
+        //System.out.println("hello" + ext);
 
         final File file = new File(list + ext);
         if (file.exists()) {
@@ -59,7 +61,7 @@ public final class GestoreFile {
 
     public static boolean delete(final Auto auto, final List list) throws Exception {
         final File diApp = new File("appoggio" + ext);
-        final File orig = new File( list + ext);
+        final File orig = new File(list + ext);
 
         final FileOutputStream fOUT = new FileOutputStream(diApp);
         final ObjectOutputStream oOUT = new ObjectOutputStream(fOUT);

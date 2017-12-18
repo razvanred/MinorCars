@@ -1,6 +1,8 @@
-package it.minoranza.minorgroup.commons.model.enums;
+package it.minoranza.minorgroup.minorclient.model.enums;
 
-public enum Alimentazione {
+import java.io.Serializable;
+
+public enum Alimentazione implements Serializable {
     DIESEL,
     BENZINA,
     METANO,

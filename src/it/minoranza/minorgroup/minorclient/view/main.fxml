@@ -11,7 +11,7 @@
             <Tab text="In vendita" fx:id="tabOnSale"/>
 
             <Tab text="Aggiungi">
-                <fx:include source="addcar.fxml"/>
+                <fx:include source="/it/minoranza/minorgroup/minorclient/view/addcar.fxml"/>
             </Tab>
 
             <Tab text="Vendute" fx:id="tabSold"/>

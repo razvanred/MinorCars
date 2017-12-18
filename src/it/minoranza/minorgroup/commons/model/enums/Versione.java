@@ -1,6 +1,8 @@
-package it.minoranza.minorgroup.commons.model.enums;
+package it.minoranza.minorgroup.minorclient.model.enums;
 
-public enum Versione {
+import java.io.Serializable;
+
+public enum Versione implements Serializable {
 
     BREAK("Famigliare"),
     UTILITARIA("Utilitaria"),
@@ -16,6 +18,11 @@ public enum Versione {
     }
 
     public String getDescrizione() {
+        return descrizione;
+    }
+
+    @Override
+    public String toString() {
         return descrizione;
     }
 

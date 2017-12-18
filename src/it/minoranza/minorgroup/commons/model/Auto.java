@@ -1,11 +1,10 @@
 package it.minoranza.minorgroup.commons.model;
 
-import it.minoranza.minorgroup.commons.model.enums.Accessorio;
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-import it.minoranza.minorgroup.commons.model.enums.Marca;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+
+import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.minorclient.model.enums.Marca;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -26,38 +25,6 @@ public class Auto implements Serializable {
         this.marca = marca;
         this.price = price;
         this.accessori = accessori;
-    }
-
-    public Auto(final JSONObject object) throws JSONException{
-        this.modello=object.getString(CarJSON.modello.name());
-        motore=new Motore(object.getJSONObject(CarJSON.motore.name()));
-        marca= Marca.valueOf(object.getString(CarJSON.marca.name()));
-
-        tipo=new Tipo(object.getJSONObject(CarJSON.tipo.name()));
-        JSONArray array=new JSONArray(object.getJSONArray(CarJSON.accessori.name()));
-        accessori=new Accessorio[array.length()];
-
-        for(int i=0;i<array.length();i++)
-            accessori[i]=Accessorio.valueOf(array.getString(i));
-
-        price=object.getInt(CarJSON.price.name());
-    }
-
-    public JSONObject toJSON(){
-        JSONObject object=new JSONObject();
-        object.put(CarJSON.marca.name(),marca);
-        object.put(CarJSON.modello.name(),modello);
-        object.put(CarJSON.motore.name(),motore.toJSON());
-        object.put(CarJSON.price.name(),price);
-        object.put(CarJSON.tipo.name(),tipo.toJSON());
-
-        JSONArray arr=new JSONArray();
-        for(Accessorio a:accessori)
-            arr.put(a);
-
-        object.put(CarJSON.accessori.name(),arr);
-
-        return object;
     }
 
     public final Marca getMarca() {
@@ -106,7 +73,15 @@ public class Auto implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Auto)) return false;
 
-        final Auto auto = (Auto) o;
+        Auto auto = (Auto) o;
+
+        /*if (price != auto.price) return false;
+        if (modello != null ? !modello.equals(auto.modello) : auto.modello != null) return false;
+        if (marca != auto.marca) return false;
+        if (motore != null ? !motore.equals(auto.motore) : auto.motore != null) return false;
+        if (tipo != null ? !tipo.equals(auto.tipo) : auto.tipo != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(accessori, auto.accessori);*/
 
         boolean acc = true;
         for (int i = 0; i < accessori.length; i++)
@@ -126,17 +101,4 @@ public class Auto implements Serializable {
         result = 31 * result + Arrays.hashCode(accessori);
         return result;
     }
-
-    public enum CarJSON {
-        marca,
-        modello,
-        motore,
-        tipo,
-        accessori,
-        price,
-        data
-    }
-
 }
-
-

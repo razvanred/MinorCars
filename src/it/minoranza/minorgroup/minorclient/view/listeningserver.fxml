@@ -12,6 +12,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import javafx.scene.control.Label?>
+
 <BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorclient.control.ListeningServer">
     <padding>
         <Insets topRightBottomLeft="10"/>

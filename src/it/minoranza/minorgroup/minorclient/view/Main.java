@@ -1,7 +1,7 @@
-package it.minoranza.minorgroup.minorclient.control;
+package it.minoranza.minorgroup.minorclient.view;
 
 import com.jfoenix.controls.JFXTabPane;
-import it.minoranza.minorgroup.minorclient.control.threads.StageTwo;
+import it.minoranza.minorgroup.minorclient.control.TableProperties;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,12 +13,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Main implements Initializable{
+public class Main implements Initializable {
 
     @FXML
     private JFXTabPane tabPane;
-
-    private StageTwo two;
 
     @FXML
     private Tab tabOnSale, tabSold;
@@ -28,7 +26,7 @@ public class Main implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/onsale.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/onsale.fxml"));
         try {
             tabOnSale.setContent(loader.load());
         } catch (IOException io) {
@@ -36,7 +34,7 @@ public class Main implements Initializable{
         }
 
         onSale = loader.getController();
-        loader = new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/sold.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/sold.fxml"));
 
         try {
             tabSold.setContent(loader.load());
@@ -55,9 +53,5 @@ public class Main implements Initializable{
             }
         });
 
-    }
-
-    public final void attachSecond(final StageTwo two){
-        this.two=two;
     }
 }

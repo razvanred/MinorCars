@@ -1,19 +1,10 @@
 package it.minoranza.minorgroup.commons.model;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
-import it.minoranza.minorgroup.commons.model.enums.Accessorio;
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-
-import static it.minoranza.minorgroup.commons.model.Auto.CarJSON;
-
-import it.minoranza.minorgroup.commons.model.enums.Marca;
-import it.minoranza.minorgroup.commons.model.enums.Versione;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.minorclient.model.enums.Versione;
 import javafx.scene.image.ImageView;
-import org.json.JSONObject;
-
 
 public class RowAuto {
 

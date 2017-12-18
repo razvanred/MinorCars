@@ -6,7 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Principale extends Application{
+
+    public static ArrayList<IPs> list=new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);

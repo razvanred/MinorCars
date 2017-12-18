@@ -1,11 +1,14 @@
-package it.minoranza.minorgroup.commons.model.enums;
+package it.minoranza.minorgroup.minorclient.model.enums;
 
-public enum Accessorio {
+import java.io.Serializable;
 
-    TCS("Traction Auto System", 90000),
-    AUTORADIO("Autoradio", 4),
-    NAVIGATORE("Navigatore e Bluetooth", 10000000),
-    SEDILI_HOT("Sedili elettrici", 1);
+public enum Accessorio implements Serializable {
+
+    TCS("Traction Auto System", 5000),
+    AUTORADIO("Autoradio", 100),
+    NAVIGATORE("Navigatore e Bluetooth", 500),
+    SEDILI_HOT("Sedili elettrici", 1000),
+    STARTandSTOP("Start & Stop", 2000);
 
     private String descrizione;
     private int price;

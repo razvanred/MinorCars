@@ -1,10 +1,10 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.JFXCheckBox;
-import it.minoranza.minorgroup.commons.model.Auto;
+import it.minoranza.minorgroup.minorclient.model.Auto;
 import it.minoranza.minorgroup.commons.model.RowAuto;
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-import it.minoranza.minorgroup.commons.model.enums.Versione;
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.minorclient.model.enums.Versione;
 import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +40,7 @@ public abstract class TableProperties implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cars = FXCollections.observableArrayList();
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/filter.fxml"));
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/filter.fxml"));
         try {
             parent.setTop(loader.load());
         } catch (IOException io) {
@@ -105,36 +105,39 @@ public abstract class TableProperties implements Initializable {
 
     public void removeCar() {
         Alert alert;
-        final Auto row = ((RowAuto) table.getSelectionModel().getSelectedItem()).getA();
+        try {
+            final Auto row = ((RowAuto) table.getSelectionModel().getSelectedItem()).getA();
 
-        if (row != null) {
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Conferma");
-            alert.setHeaderText("Sei sicuro di voler elinare l'auto selezionata?");
-            Optional<ButtonType> result = alert.showAndWait();
+            if (row != null) {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Conferma");
+                alert.setHeaderText("Sei sicuro di voler elinare l'auto selezionata?");
+                Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                try {
-                    GestoreFile.delete(row, getList());
-                    refreshData();
-                    Notifications.create()
-                            .title("Fatto")
-                            .text("Eliminazione avvenuta con successo")
-                            .showInformation();
-                } catch (Exception exc) {
-                    Notifications.create()
-                            .title("Attenzione")
-                            .text("L'eliminazione non è avvenuta")
-                            .showWarning();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        GestoreFile.delete(row, getList());
+                        refreshData();
+                        Notifications.create()
+                                .title("Fatto")
+                                .text("Eliminazione avvenuta con successo")
+                                .showInformation();
+                    } catch (Exception exc) {
+                        Notifications.create()
+                                .title("Attenzione")
+                                .text("L'eliminazione non è avvenuta")
+                                .showWarning();
+                    }
                 }
+            } else {
+                throw new NullPointerException();
             }
-        } else {
+        }catch(NullPointerException exc){
             alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Attenzione");
             alert.setHeaderText("Devi prima selezionare un'auto");
             alert.showAndWait();
         }
-
     }
 
 }

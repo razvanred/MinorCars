@@ -12,12 +12,14 @@ import javafx.scene.control.TextFormatter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 public class Main implements Initializable {
 
-    private UDPThread thread;
+    private UDPThread udp;
+    private TCPThread tcp;
 
     @FXML
     private JFXTextField txfIP,txfPort,txfName;
@@ -76,16 +78,33 @@ public class Main implements Initializable {
     }
 
     public void openConnection(){
-        try {
-            thread=new UDPThread(InetAddress.getByName(txfIP.getText()),Integer.parseInt(txfPort.getText()),this);
-            thread.start();
+        /*try {
+            udp=new UDPThread(InetAddress.getByName(txfIP.getText()),Integer.parseInt(txfPort.getText()),this);
+            udp.start();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+
+        try{
+            tcp=new TCPThread(this);
+            tcp.start();
+
+            btnTCP.setDisable(true);
+        }catch(IOException io){
+            io.printStackTrace();
         }
+    }
+
+    public final InetAddress getAddress() throws UnknownHostException {
+        return InetAddress.getByName(txfIP.getText());
     }
 
     public final String getPasskey(){
         return tpfPassword.getText();
+    }
+
+    public final int getPort(){
+        return Integer.parseInt(txfPort.getText());
     }
 
     public String getName(){

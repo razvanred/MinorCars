@@ -3,12 +3,12 @@ package it.minoranza.minorgroup.minorclient.control;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import it.minoranza.minorgroup.commons.model.Auto;
-import it.minoranza.minorgroup.commons.model.AutoUsata;
+import it.minoranza.minorgroup.minorclient.model.Auto;
+import it.minoranza.minorgroup.minorclient.model.AutoUsata;
 import it.minoranza.minorgroup.commons.model.RowAuto;
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-import it.minoranza.minorgroup.commons.model.enums.Marca;
-import it.minoranza.minorgroup.commons.model.enums.Versione;
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.minorclient.model.enums.Marca;
+import it.minoranza.minorgroup.minorclient.model.enums.Versione;
 import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -129,13 +129,17 @@ public class Filter implements Initializable {
             ArrayList<Auto> auto = GestoreFile.read(table.getList());
             table.getCars().clear();
             for (Auto a : auto) {
-                if (a.getTotalPrice() >= price && testVersione(a) && testAlimentazione(a) && testConditions(a) && a.isNeo() == neoToggle.isSelected() && testBrand(a))
+                if (a.getTotalPrice() >= price && testVersione(a) && testAlimentazione(a) && testConditions(a) && testNeo(a) && testBrand(a))
                     table.getCars().add(new RowAuto(a));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean testNeo(final Auto a) {
+        return !neoToggle.isSelected() || a.isNeo();
     }
 
     private boolean testBrand(final Auto a) {

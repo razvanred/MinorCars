@@ -1,46 +1,20 @@
 package it.minoranza.minorgroup.commons.model;
 
-import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
-import org.json.JSONObject;
 
-public class Motore {
+import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+
+import java.io.Serializable;
+
+public class Motore implements Serializable {
 
     private int cilindrata;
     private int kw;
     private Alimentazione alimentazione;
 
-    public Motore(final JSONObject motore){
-        cilindrata=motore.getInt(EngineJSON.cilindrata.name());
-        kw=motore.getInt(EngineJSON.kw.name());
-        alimentazione=Alimentazione.valueOf(motore.getString(EngineJSON.alimentazione.name()));
-    }
-
-    public Motore(final Alimentazione alimentazione,final int cilindrata,final int kw){
-
-        this.kw=kw;
-        this.alimentazione=alimentazione;
-        this.cilindrata=cilindrata;
-
-    }
-
-
-    public enum EngineJSON{
-        cilindrata,
-        kw,
-        alimentazione
-    }
-
-    public Alimentazione getAlimentazione() {
-        return alimentazione;
-    }
-
-
-    public int getCilindrata(){
-        return cilindrata;
-    }
-
-    public int getKw(){
-        return kw;
+    public Motore(final Alimentazione alimentazione, final int cilindrata, final int kw) {
+        this.alimentazione = alimentazione;
+        this.cilindrata = cilindrata;
+        this.kw = kw;
     }
 
     @Override
@@ -63,15 +37,15 @@ public class Motore {
         return result;
     }
 
-    public JSONObject toJSON(){
-        final JSONObject object=new JSONObject();
-
-        object.put(EngineJSON.alimentazione.name(),alimentazione);
-        object.put(EngineJSON.cilindrata.name(),cilindrata);
-        object.put(EngineJSON.kw.name(),kw);
-
-        return object;
+    public final int getKw() {
+        return kw;
     }
 
+    public final int getCilindrata() {
+        return cilindrata;
+    }
 
+    public final Alimentazione getAlimentazione() {
+        return alimentazione;
+    }
 }

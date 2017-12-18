@@ -1,9 +1,11 @@
-package it.minoranza.minorgroup.commons.model.enums;
+package it.minoranza.minorgroup.minorclient.model.enums;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public enum Marca {
+import java.io.Serializable;
+
+public enum Marca implements Serializable {
 
     VOLKSWAGEN("Volkswagen", "volkswagen.png"),
     CITROEN("Citroën", "citroen.png"),

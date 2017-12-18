@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns:fx="http://javafx.com/fx" fx:controller="it.minoranza.minorgroup.minorclient.control.Sold" fx:id="parent">
+
+    <center>
+        <TableView fx:id="table"/>
+    </center>
+
+    <bottom>
+        <BorderPane>
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <right>
+                <HBox spacing="7">
+                    <JFXButton onAction="#removeCar" textFill="white" style="-fx-background-color: red"
+                               text="RIMUOVI"/>
+                </HBox>
+            </right>
+        </BorderPane>
+
+    </bottom>
+
+</BorderPane>

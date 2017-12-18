@@ -1,8 +1,7 @@
 package it.minoranza.minorgroup.minordealer.control;
 
-import it.minoranza.minorgroup.commons.model.Auto;
-import it.minoranza.minorgroup.commons.model.SendDealerData;
-import javafx.application.Platform;
+import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
+import it.minoranza.minorgroup.minorclient.model.Auto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,6 +23,7 @@ public class UDPThread extends Thread {
 
     public UDPThread(InetAddress address, int port, final Main main) throws IOException {
         socket = new DatagramSocket(4445);
+        socket.setBroadcast(true);
 
         this.address = address;
         this.port = port;
@@ -46,13 +46,13 @@ public class UDPThread extends Thread {
                 JSONObject object=new JSONObject();
                 JSONArray array = new JSONArray();
                 for (Auto aRead : read) array.put(aRead.toJSON());
-                object.put(SendDealerData.data.name(),array);
-                object.put(SendDealerData.nameDealer.name(),name);
-                object.put(SendDealerData.passkey.name(),passkey);
+                object.put(DealerToServer.data.name(),array);
+                object.put(DealerToServer.nameDealer.name(),name);
+                object.put(DealerToServer.passkey.name(),passkey);
 
                 byte[] buff = object.toString().getBytes();
 
-                DatagramPacket packet = new DatagramPacket(buff, buff.length, address, port);
+                DatagramPacket packet = new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
                 socket.send(packet);
 
                 stop=true;

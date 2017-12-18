@@ -1,15 +1,16 @@
 package it.minoranza.minorgroup.minorserver.control;
 
+import it.minoranza.minorgroup.commons.model.requests.RequestClientServer;
+import it.minoranza.minorgroup.minorserver.IPs;
+import it.minoranza.minorgroup.minorserver.Principale;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.Socket;
-
-import it.minoranza.minorgroup.commons.model.RequestClientServer;
-import it.minoranza.minorgroup.commons.model.RequestDealerServer;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  *
@@ -33,16 +34,28 @@ public class RunVirtualCommunication extends Thread {
         //int i=0;
 
         while(finish){
+
+            System.out.println("virtual");
             try {
                 InputStream is = s.getInputStream();
                 StringWriter buffer = new StringWriter();
                 IOUtils.copy(is, buffer);
 
-                System.out.println(buffer.toString());
+
+                try {
+                    IPs ips=new IPs(new JSONObject(buffer.toString()),s.getInetAddress(),s.getPort());
+
+                    if(!Principale.list.contains(ips))
+                        it.minoranza.minorgroup.minorserver.Principale.list.add(ips);
 
 
+                }catch(JSONException exc){
+                    exc.printStackTrace();
+                }
                 buffer.close();
                 is.close();
+
+                Main.udp.refresh();
 
                 try{
                     belong=new JSONObject();

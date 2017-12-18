@@ -1,7 +1,6 @@
-package it.minoranza.minorgroup.commons.model;
+package it.minoranza.minorgroup.commons.model.requests;
 
 public enum RequestClientServer {
-    letMeIn,
     ipClient,
     portClient,
     checkPassword

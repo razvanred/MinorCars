@@ -88,14 +88,9 @@ public class Main implements Initializable {
     }
 
     public void openConnection() {
-        /*try {
-            udp=new UDPThread(InetAddress.getByName(txfIP.getText()),Integer.parseInt(txfPort.getText()),this);
-            udp.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+
         if (btnTCP.isSelected()) {
-            try {
+            /*try {
                 tcp = new TCPThread(this);
                 tcp.start();
                 setUpDown(true);
@@ -104,15 +99,28 @@ public class Main implements Initializable {
                 io.printStackTrace();
                 btnTCP.setSelected(false);
                 setUpDown(false);
+            }*/
+            try {
+                udp = new UDPThread(Integer.parseInt(txfPortUDP.getText()), this);
+                udp.start();
+                setUpDown(true);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }else{
+            if (udp != null && udp.isAlive()) {
+                udp.interrupt();
+                setUpDown(false);
+            }
+        }
+        /*}else{
             try{
                 tcp.explode();
             }catch(NullPointerException|IOException nuller){
                 nuller.printStackTrace();
                 setUpDown(false);
             }
-        }
+        }*/
     }
 
     public final void setUpDown(final boolean boo){
@@ -121,6 +129,7 @@ public class Main implements Initializable {
         txfIP.setDisable(boo);
         txfName.setDisable(boo);
         tpfPassword.setDisable(boo);
+        btnTCP.setDisable(boo);
     }
 
     public final InetAddress getAddress() throws UnknownHostException {

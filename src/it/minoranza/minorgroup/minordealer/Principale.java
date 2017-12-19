@@ -13,11 +13,12 @@ public class Principale  extends Application{
     }
 
     public static Stage stage;
+    public static String dealerName;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         Parent root= FXMLLoader.load(getClass().getResource("view/main.fxml"));
-        primaryStage.setScene(new Scene(root,500,400));
+        primaryStage.setScene(new Scene(root, 610, 500));
         primaryStage.setTitle("MinorDealer");
         primaryStage.show();
 

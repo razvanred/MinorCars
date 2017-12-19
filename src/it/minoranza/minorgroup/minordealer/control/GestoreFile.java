@@ -2,6 +2,7 @@ package it.minoranza.minorgroup.minordealer.control;
 
 import it.minoranza.minorgroup.commons.model.Auto;
 import it.minoranza.minorgroup.minorclient.control.AppendObjectOutputStream;
+import it.minoranza.minorgroup.minordealer.Principale;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public final class GestoreFile {
         final FileOutputStream fOUT;
         final ObjectOutputStream oOUT;
 
-        final File file = new File(list + ext);
+        final File file = new File(Principale.dealerName + list + ext);
 
         if (!file.exists()) {
             fOUT = new FileOutputStream(file);
@@ -37,7 +38,7 @@ public final class GestoreFile {
         final ArrayList<Auto> auto = new ArrayList<>();
         //System.out.println("hello" + ext);
 
-        final File file = new File(list + ext);
+        final File file = new File(Principale.dealerName + list + ext);
         if (file.exists()) {
             final FileInputStream fIN = new FileInputStream(file);
             final ObjectInputStream oIN = new ObjectInputStream(fIN);
@@ -61,7 +62,7 @@ public final class GestoreFile {
 
     public static boolean delete(final Auto auto, final List list) throws Exception {
         final File diApp = new File("appoggio" + ext);
-        final File orig = new File(list + ext);
+        final File orig = new File(Principale.dealerName + list + ext);
 
         final FileOutputStream fOUT = new FileOutputStream(diApp);
         final ObjectOutputStream oOUT = new ObjectOutputStream(fOUT);

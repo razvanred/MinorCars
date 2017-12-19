@@ -3,7 +3,7 @@ package it.minoranza.minorgroup.minorserver.control;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import it.minoranza.minorgroup.minorserver.Principale;
-import it.minoranza.minorgroup.minorserver.model.RunVirtualCommunication;
+import it.minoranza.minorgroup.minorserver.model.ConnectionSaver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -61,9 +61,9 @@ public class Main implements Initializable {
             }
         });
 
-        Principale.dealers.addListener(new ListChangeListener<RunVirtualCommunication>(){
+        Principale.dealers.addListener(new ListChangeListener<ConnectionSaver>() {
             @Override
-            public void onChanged(Change<? extends RunVirtualCommunication> c) {
+            public void onChanged(Change<? extends ConnectionSaver> c) {
                 if(udp!=null)
                     udp.refresh();
             }

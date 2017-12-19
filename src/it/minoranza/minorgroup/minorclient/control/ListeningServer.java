@@ -1,21 +1,16 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.*;
-import com.sun.deploy.util.FXLoader;
 import it.minoranza.minorgroup.minorclient.control.threads.StageOne;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 import org.json.JSONArray;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ListeningServer implements Initializable {
@@ -60,17 +55,32 @@ public class ListeningServer implements Initializable {
     public void startListening() {
         if(btnListen.isSelected()) {
             thread.startOperations(Integer.parseInt(txfPort.getText()));
+            spinner.setVisible(true);
         }else{
             if(thread!=null&&thread.isAlive())
                 thread.explode();
+            spinner.setVisible(false);
         }
     }
 
     @FXML
     public void connectionToServer() {
 
+        onOff(true);
 
+        String toSend = listDealers.getSelectionModel().getSelectedItem().getText();
+        if (toSend != null) {
 
+        } else {
+            Notifications.create().title("Attenzione").text("Devi selezionare almeno una cella").showWarning();
+        }
+
+    }
+
+    public void onOff(final boolean boo) {
+        btnConn.setDisable(boo);
+        txfPassword.setDisable(boo);
+        listDealers.setDisable(boo);
     }
 
     public final void close(){
@@ -92,6 +102,7 @@ public class ListeningServer implements Initializable {
     }
 
     public final void changeList(final JSONArray array){
+        listDealers.getItems().clear();
         for(int i=0;i<array.length();i++){
             Label lbl=new Label(array.getString(i));
             listDealers.getItems().add(lbl);

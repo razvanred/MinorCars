@@ -1,6 +1,6 @@
 package it.minoranza.minorgroup.minorserver;
 
-import it.minoranza.minorgroup.minorserver.model.RunVirtualCommunication;
+import it.minoranza.minorgroup.minorserver.model.ConnectionSaver;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,12 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Observable;
-
 public class Principale extends Application{
 
-    public static ObservableList<RunVirtualCommunication> dealers= FXCollections.observableArrayList();
+    public static ObservableList<ConnectionSaver> dealers = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
         launch(args);

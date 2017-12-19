@@ -1,12 +1,12 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
-import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
-import it.minoranza.minorgroup.commons.model.requests.ServerToClient;
 import it.minoranza.minorgroup.minorclient.control.ListeningServer;
+import it.minoranza.minorgroup.minorclient.control.Main;
 import javafx.application.Platform;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -38,14 +38,43 @@ public class StageOne extends Thread {
                 ds.receive(response);
 
                 //ds.send(packet);
-                Platform.runLater(new Runnable() {
+                /*Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         ls.setUpDown(true);
                     }
+                });*/
+
+
+                //JSONObject object=new JSONObject(new String(response.getData(),0,response.getLength()));
+                //String title=object.getString(DealerToServer.nameDealer.name());
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //ls.changeList(array);
+                        Stage stage = new Stage();
+                        try {
+                            ls.close();
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/main.fxml"));
+                            Parent root = loader.load();
+                            stage.setScene(new Scene(root, 1240, 850));
+                            Main main = loader.getController();
+                            StageTwo two = new StageTwo(ds, response, main);
+                            main.attachSecond(two);
+                            stage.show();
+
+                            run = false;
+                            two.start();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 });
 
-                thread = new Thread(new Runnable() {
+                /*thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -58,39 +87,16 @@ public class StageOne extends Thread {
                                     JSONArray array = new JSONObject(json).getJSONArray(ServerToClient.listDealers.name());/*new JSONArray();
                                     JSONObject object = new JSONObject(json);
 
-                                    array.put(object.getString(DealerToServer.nameDealer.name()));*/
+                                    array.put(object.getString(DealerToServer.nameDealer.name()));
 
-                                    Platform.runLater(new Runnable() {
+                                    /*Platform.runLater(new Runnable() {
                                         @Override
                                         public void run() {
                                             ls.changeList(array);
                                         }
                                     });
 
-                        /*Platform.runLater(new Runnable(){
-                            @Override
-                            public void run(){
-
-                                ls.changeList(array);
-                                Stage stage=new Stage();
-                                try {
-                                    ls.close();
-                                    FXMLLoader loader=new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/main.fxml"));
-                                    Parent root=loader.load();
-                                    stage.setScene(new Scene(root,1240, 850));
-                                    Main main=loader.getController();
-                                    StageTwo two=new StageTwo(ds,response,main);
-                                    main.attachSecond(two);
-                                    stage.show();
-
-                                    run=false;
-                                    two.start();
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });*/
+                        /*
                                 } catch (JSONException exc) {
                                     exc.printStackTrace();
                                 }
@@ -107,7 +113,7 @@ public class StageOne extends Thread {
                     }
                 });
 
-                thread.start();
+                thread.start();*/
             } catch (IOException ioException) {
                 ioException.printStackTrace();
                 run = false;

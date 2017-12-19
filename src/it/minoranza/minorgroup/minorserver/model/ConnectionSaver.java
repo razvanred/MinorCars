@@ -1,7 +1,6 @@
 package it.minoranza.minorgroup.minorserver.model;
 
 import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
-import it.minoranza.minorgroup.minorserver.control.Main;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +11,7 @@ import java.io.StringWriter;
 import java.net.Socket;
 
 
-public class RunVirtualCommunication extends Thread {
+public class ConnectionSaver extends Thread implements Comparable<String> {
 
     private final Socket s;
     private volatile boolean finish;
@@ -22,12 +21,15 @@ public class RunVirtualCommunication extends Thread {
     private final int portUDP;
 
 
-    public RunVirtualCommunication(final Socket s) throws IOException, JSONException {
+    public ConnectionSaver(final Socket s) throws IOException, JSONException {
+        System.err.println("russ");
+
         this.s = s;
 
         finish = true;
 
         is = s.getInputStream();
+        System.err.println("input");
         buffer = new StringWriter();
         IOUtils.copy(is, buffer);
 
@@ -50,7 +52,7 @@ public class RunVirtualCommunication extends Thread {
             System.out.println("virtual");
             //try {
 
-            Main.udp.refresh();
+            //Main.udp.refresh();
 
             finish = false;
 
@@ -73,7 +75,7 @@ public class RunVirtualCommunication extends Thread {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RunVirtualCommunication that = (RunVirtualCommunication) o;
+        ConnectionSaver that = (ConnectionSaver) o;
 
         return hostname != null ? hostname.equals(that.hostname) : that.hostname == null;
     }
@@ -91,6 +93,18 @@ public class RunVirtualCommunication extends Thread {
         return hostname;
     }
 
+    public final void startOperations() {
+
+    }
+
+    public final String getPassword() {
+        return password;
+    }
+
+    @Override
+    public int compareTo(String o) {
+        return hostname.compareTo(o);
+    }
 
     /*public final void setFinish(final boolean finish) {
     this.finish = finish;

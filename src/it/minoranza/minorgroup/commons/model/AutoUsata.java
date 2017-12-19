@@ -1,13 +1,14 @@
 package it.minoranza.minorgroup.commons.model;
 
-
-import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
-import it.minoranza.minorgroup.minorclient.model.enums.Marca;
+import it.minoranza.minorgroup.commons.model.enums.Accessorio;
+import it.minoranza.minorgroup.commons.model.enums.Marca;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class AutoUsata extends Auto implements Serializable {
+public class AutoUsata extends Auto{
 
     private LocalDate date;
 
@@ -16,8 +17,21 @@ public class AutoUsata extends Auto implements Serializable {
         this.date = date;
     }
 
+    public enum AutoUsataParams{
+        date
+    }
+
     public LocalDate getLocalDate() {
         return date;
+    }
+
+    @Override
+    public JSONObject toJSON(){
+        final JSONObject object=super.toJSON();
+
+        object.put(AutoUsataParams.date.name(),date.toString());
+
+        return object;
     }
 
 

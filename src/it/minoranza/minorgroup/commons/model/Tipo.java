@@ -1,6 +1,6 @@
 package it.minoranza.minorgroup.commons.model;
 
-import it.minoranza.minorgroup.minorclient.model.enums.Versione;
+import it.minoranza.minorgroup.commons.model.enums.Versione;
 import org.json.JSONObject;
 
 import java.io.Serializable;

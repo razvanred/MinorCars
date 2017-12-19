@@ -1,10 +1,9 @@
 package it.minoranza.minorgroup.commons.model;
 
 
-
-import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
-import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
-import it.minoranza.minorgroup.minorclient.model.enums.Marca;
+import it.minoranza.minorgroup.commons.model.enums.Accessorio;
+import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
+import it.minoranza.minorgroup.commons.model.enums.Marca;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -18,12 +18,13 @@ public class TCPThread extends Thread {
     private volatile boolean boom;
     private final String name,password;
     private final InetAddress address;
-    private final int port;
+    private final int portTCP,portUDP;
 
     public TCPThread(final Main main) throws IOException {
 
         address=main.getAddress();
-        port=main.getPort();
+        portTCP=main.getPortTCP();
+        portUDP=main.getPortUDP();
 
         boom=false;
         name=main.getName().trim();
@@ -35,7 +36,7 @@ public class TCPThread extends Thread {
     public void run(){
         while(!boom) {
             try {
-                socket=new Socket(address,port);
+                socket=new Socket(address,portTCP);
                 socket.setSoTimeout(0);
 
                 final OutputStream out = socket.getOutputStream();
@@ -47,6 +48,7 @@ public class TCPThread extends Thread {
                 JSONObject object=new JSONObject();
                 object.put(DealerToServer.passkey.name(),password);
                 object.put(DealerToServer.nameDealer.name(),name);
+                object.put(DealerToServer.portUDP.name(),portUDP);
 
                 wr.println(object);
 

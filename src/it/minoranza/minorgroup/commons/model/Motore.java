@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.commons.model;
 
 
-import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
+import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class Motore implements Serializable {
         this.kw = kw;
     }
 
-    public enum MotoreParams{
+    public enum MotoreParams {
         cilindrata,
         kw,
         alimentazione
@@ -52,11 +52,11 @@ public class Motore implements Serializable {
         return cilindrata;
     }
 
-    public final JSONObject toJSON(){
-        final JSONObject object=new JSONObject();
-        object.put(MotoreParams.cilindrata.name(),cilindrata);
-        object.put(MotoreParams.alimentazione.name(),alimentazione);
-        object.put(MotoreParams.kw.name(),kw);
+    public final JSONObject toJSON() {
+        final JSONObject object = new JSONObject();
+        object.put(MotoreParams.cilindrata.name(), cilindrata);
+        object.put(MotoreParams.alimentazione.name(), alimentazione);
+        object.put(MotoreParams.kw.name(), kw);
 
         return object;
     }

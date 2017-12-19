@@ -1,4 +1,4 @@
-package it.minoranza.minorgroup.minorclient.model.enums;
+package it.minoranza.minorgroup.commons.model.enums;
 
 import java.io.Serializable;
 

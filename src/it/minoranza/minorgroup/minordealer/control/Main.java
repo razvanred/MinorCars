@@ -1,6 +1,5 @@
 package it.minoranza.minorgroup.minordealer.control;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
@@ -22,7 +21,7 @@ public class Main implements Initializable {
     private TCPThread tcp;
 
     @FXML
-    private JFXTextField txfIP, txfPort, txfName;
+    private JFXTextField txfIP, txfPortTCP, txfPortUDP, txfName;
 
     @FXML
     private JFXPasswordField tpfPassword;
@@ -42,11 +41,11 @@ public class Main implements Initializable {
 
         btnTCP.setDisable(true);
 
-        txfPort.textProperty().addListener((observable, oldValue, newValue) -> {
+        txfPortTCP.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
-                txfPort.setText(newValue.replaceAll("[^\\d]", ""));
+                txfPortTCP.setText(newValue.replaceAll("[^\\d]", ""));
             }
-            btnTCP.setDisable(txfIP.getText().isEmpty() || txfPort.getText().isEmpty() || txfName.getText().trim().isEmpty());
+            checkBtnTCP();
         });
 
         final String regex = makePartialIPRegex();
@@ -60,14 +59,25 @@ public class Main implements Initializable {
         };
         txfIP.setTextFormatter(new TextFormatter<>(ipAddressFilter));
 
-        txfPort.textProperty().addListener((observable, oldValue, newValue) ->
-                btnTCP.setDisable(txfIP.getText().isEmpty() || txfPort.getText().isEmpty() || txfName.getText().trim().isEmpty())
+        txfIP.textProperty().addListener((observable, oldValue, newValue) ->
+                checkBtnTCP()
         );
 
-        txfName.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnTCP.setDisable(txfIP.getText().isEmpty() || txfPort.getText().isEmpty() || txfName.getText().trim().isEmpty());
-        });
+        txfName.textProperty().addListener((observable, oldValue, newValue) ->
+            checkBtnTCP()
+        );
 
+        txfPortUDP.textProperty().addListener(((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txfPortTCP.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            checkBtnTCP();
+        }));
+
+    }
+
+    private void checkBtnTCP(){
+        btnTCP.setDisable(txfIP.getText().isEmpty() || txfPortTCP.getText().isEmpty() || txfName.getText().trim().isEmpty() ||tpfPassword.getText().isEmpty()||txfPortUDP.getText().isEmpty()||Integer.parseInt(txfPortUDP.getText())==Integer.parseInt(txfPortTCP.getText()));
     }
 
     private String makePartialIPRegex() {
@@ -106,7 +116,8 @@ public class Main implements Initializable {
     }
 
     public final void setUpDown(final boolean boo){
-        txfPort.setDisable(boo);
+        txfPortUDP.setDisable(boo);
+        txfPortTCP.setDisable(boo);
         txfIP.setDisable(boo);
         txfName.setDisable(boo);
         tpfPassword.setDisable(boo);
@@ -120,8 +131,12 @@ public class Main implements Initializable {
         return tpfPassword.getText();
     }
 
-    public final int getPort() {
-        return Integer.parseInt(txfPort.getText());
+    public final int getPortTCP() {
+        return Integer.parseInt(txfPortTCP.getText());
+    }
+
+    public final int getPortUDP(){
+        return Integer.parseInt(txfPortUDP.getText());
     }
 
     public String getName() {

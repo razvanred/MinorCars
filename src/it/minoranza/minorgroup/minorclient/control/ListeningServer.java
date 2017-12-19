@@ -58,7 +58,12 @@ public class ListeningServer implements Initializable {
 
     @FXML
     public void startListening() {
-        thread.startOperations(Integer.parseInt(txfPort.getText()));
+        if(btnListen.isSelected()) {
+            thread.startOperations(Integer.parseInt(txfPort.getText()));
+        }else{
+            if(thread!=null&&thread.isAlive())
+                thread.explode();
+        }
     }
 
     @FXML

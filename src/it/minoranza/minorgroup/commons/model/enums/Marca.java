@@ -1,4 +1,4 @@
-package it.minoranza.minorgroup.minorclient.model.enums;
+package it.minoranza.minorgroup.commons.model.enums;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

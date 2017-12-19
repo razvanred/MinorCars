@@ -1,9 +1,9 @@
 package it.minoranza.minorgroup.commons.model;
 
 import com.jfoenix.controls.JFXCheckBox;
-import it.minoranza.minorgroup.minorclient.model.enums.Accessorio;
-import it.minoranza.minorgroup.minorclient.model.enums.Alimentazione;
-import it.minoranza.minorgroup.minorclient.model.enums.Versione;
+import it.minoranza.minorgroup.commons.model.enums.Accessorio;
+import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
+import it.minoranza.minorgroup.commons.model.enums.Versione;
 import javafx.scene.image.ImageView;
 
 public class RowAuto {

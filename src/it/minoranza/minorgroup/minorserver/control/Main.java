@@ -2,8 +2,11 @@ package it.minoranza.minorgroup.minorserver.control;
 
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import it.minoranza.minorgroup.minorserver.Principale;
+import it.minoranza.minorgroup.minorserver.model.RunVirtualCommunication;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -58,6 +61,14 @@ public class Main implements Initializable {
             }
         });
 
+        Principale.dealers.addListener(new ListChangeListener<RunVirtualCommunication>(){
+            @Override
+            public void onChanged(Change<? extends RunVirtualCommunication> c) {
+                if(udp!=null)
+                    udp.refresh();
+            }
+        });
+
     }
 
     private boolean checkEqualsUDP() {
@@ -79,10 +90,11 @@ public class Main implements Initializable {
 
     @FXML
     private void startStopTCP(){
-        System.err.println("tcp started");
         if(btnTCP.isSelected()){
             try {
+                System.err.println("tcp started");
                 tcp=new TCPThread(this);
+                tcp.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

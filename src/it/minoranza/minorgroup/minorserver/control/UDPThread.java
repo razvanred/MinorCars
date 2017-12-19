@@ -1,6 +1,6 @@
 package it.minoranza.minorgroup.minorserver.control;
 
-import it.minoranza.minorgroup.commons.model.requests.ResponseClientServer;
+import it.minoranza.minorgroup.commons.model.requests.ServerToClient;
 import it.minoranza.minorgroup.minorserver.Principale;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,21 +45,27 @@ public class UDPThread extends Thread {
         socket.close();
     }
 
-    public void refresh(){
-
-        JSONArray array=new JSONArray();
-        for(int i=0;i<Principale.list.size();i++)
-            array.put(Principale.list.get(i).getHostname());
-
-        JSONObject object=new JSONObject();
-        object.put(ResponseClientServer.listDealers.name(),array);
-
+    public void refresh() {
         try {
-            byte[] broadcast=object.toString().getBytes();
-            DatagramPacket packet=new DatagramPacket(broadcast,broadcast.length, InetAddress.getByName("255.255.255.255"),portClient);
-            socket.send(packet);
-        } catch (IOException e) {
-            e.printStackTrace();
+            DatagramSocket toClient = new DatagramSocket();
+
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < Principale.dealers.size(); i++)
+                array.put(Principale.dealers.get(i).getHostname());
+
+            JSONObject object = new JSONObject();
+            object.put(ServerToClient.listDealers.name(), array);
+
+            try {
+                byte[] broadcast = object.toString().getBytes();
+                DatagramPacket packet = new DatagramPacket(broadcast, broadcast.length, InetAddress.getByName("255.255.255.255"), portClient);
+                toClient.send(packet);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }catch(IOException io){
+            io.printStackTrace();
         }
     }
 

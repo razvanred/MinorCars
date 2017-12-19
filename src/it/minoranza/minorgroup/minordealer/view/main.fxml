@@ -22,9 +22,10 @@
 
             <VBox spacing="25">
                 <JFXTextField fx:id="txfIP" labelFloat="true" promptText="Indirizzo IP"/>
-                <JFXTextField fx:id="txfPort" labelFloat="true" promptText="Numero porta"/>
+                <JFXTextField fx:id="txfPortTCP" labelFloat="true" promptText="Porta TCP"/>
                 <JFXTextField fx:id="txfName" labelFloat="true" promptText="Nome concessionaria"/>
                 <JFXPasswordField fx:id="tpfPassword" labelFloat="true" promptText="Assegna password"/>
+                <JFXTextField fx:id="txfPortUDP" labelFloat="true" promptText="Porta UDP"/>
             </VBox>
             <!--<VBox spacing="25">
                 <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="Username"/>

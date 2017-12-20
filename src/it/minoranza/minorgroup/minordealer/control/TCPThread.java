@@ -83,8 +83,24 @@ public class TCPThread extends Thread {
                 socket.close();*/
 
             } catch (IOException e) {
-                e.printStackTrace();
-                boom=true;
+
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        main.setUpDown(false);
+                        //main.explode();
+                        Notifications.create().title("Attenzione").text("Errore nell'instanziazzione del server").showWarning();
+                        //
+                        //e.printStackTrace();
+                        try {
+                            //explode();
+                            socket.close();
+                        } catch (IOException io) {
+                            io.printStackTrace();
+                        }
+                    }
+                });
             }
         }
     }
@@ -92,6 +108,7 @@ public class TCPThread extends Thread {
     public final void explode() throws IOException{
         boom=true;
         socket.close();
+        if (isAlive()) interrupt();
     }
 
 }

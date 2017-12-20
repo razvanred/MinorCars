@@ -31,7 +31,7 @@ public class TCPThread extends Thread {
                 ss = new ServerSocket(main.getPortTCP());
 
                 System.out.println("here " + ss.getLocalPort());
-                while (!breaker) {
+                while (breaker) {
                     try {
                         new RunVirtualCommunication(ss.accept(), portUDP).start();
                     } catch (JSONException exc) {

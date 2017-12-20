@@ -99,9 +99,11 @@ public class Main implements Initializable {
                 e.printStackTrace();
             }
         }else{
-            btnTCP.setSelected(false);
-            if(tcp!=null)
+            //btnTCP.setSelected(false);
+            if (tcp != null && tcp.isAlive()) {
                 tcp.boom();
+                tcp.interrupt();
+            }
         }
     }
 

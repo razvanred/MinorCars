@@ -2,6 +2,7 @@ package it.minoranza.minorgroup.commons.model;
 
 
 import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -11,6 +12,12 @@ public class Motore implements Serializable {
     private int cilindrata;
     private int kw;
     private Alimentazione alimentazione;
+
+    public Motore(final JSONObject object) throws JSONException {
+        cilindrata = object.getInt(MotoreParams.cilindrata.name());
+        kw = object.getInt(MotoreParams.kw.name());
+        alimentazione = Alimentazione.valueOf(MotoreParams.alimentazione.name());
+    }
 
     public Motore(final Alimentazione alimentazione, final int cilindrata, final int kw) {
         this.alimentazione = alimentazione;

@@ -1,14 +1,16 @@
 package it.minoranza.minorgroup.minorserver.model;
 
 import it.minoranza.minorgroup.commons.model.requests.DealerToServer;
-import org.apache.commons.io.IOUtils;
+import it.minoranza.minorgroup.commons.model.requests.ServerToDealer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class ConnectionSaver extends Thread implements Comparable<String> {
@@ -17,7 +19,7 @@ public class ConnectionSaver extends Thread implements Comparable<String> {
     private volatile boolean finish;
     private final String hostname, password;
     private final InputStream is;
-    private final StringWriter buffer;
+    // private final Scanner scanner;
     private final int portUDP;
 
 
@@ -30,14 +32,21 @@ public class ConnectionSaver extends Thread implements Comparable<String> {
 
         is = s.getInputStream();
         System.err.println("input");
-        buffer = new StringWriter();
-        IOUtils.copy(is, buffer);
+        //buffer = new StringWriter();
+        //System.out.println("blup");
+        //IOUtils.copy(is, buffer);
+        Scanner scanner = new Scanner(is);
 
-        final JSONObject object = new JSONObject(buffer.toString());
+
+        System.out.println("click");
+
+        final JSONObject object = new JSONObject(scanner.nextLine()); //buffer.toString()
         hostname = object.getString(DealerToServer.nameDealer.name());
         password = object.getString(DealerToServer.passkey.name());
-        portUDP=object.getInt(DealerToServer.portUDP.name());
+        portUDP = object.getInt(DealerToServer.portUDP.name());
 
+        System.out.println("OK GTO");
+        scanner.close();
 
         // System.out.println(" * CONNESSIONE ACCETTATA da "+s.getInetAddress()+":"+s.getPort()+" * ");
     }
@@ -48,14 +57,28 @@ public class ConnectionSaver extends Thread implements Comparable<String> {
         //int i=0;
 
         while (finish) {
+            try {
+                System.out.println("virtual connectionsaver");
 
-            System.out.println("virtual");
-            //try {
+                final JSONObject object = new JSONObject();
+                object.put(ServerToDealer.success.name(), true);
 
-            //Main.udp.refresh();
+                final OutputStream out = s.getOutputStream();
+                final PrintWriter pw = new PrintWriter(out);
 
-            finish = false;
+                pw.println(object.toString());
+                pw.close();
+                out.close();
+                //try {
 
+                //Main.udp.refresh();
+
+
+            } catch (IOException io) {
+                io.printStackTrace();
+            } finally {
+                finish = false;
+            }
             //join();
             //interrupt();
 
@@ -93,8 +116,8 @@ public class ConnectionSaver extends Thread implements Comparable<String> {
         return hostname;
     }
 
-    public final void startOperations() {
-
+    public final int getPort() {
+        return portUDP;
     }
 
     public final String getPassword() {

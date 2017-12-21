@@ -122,7 +122,7 @@ public class Main implements Initializable {
                 e.printStackTrace();
             }
         }else{
-            if(udp!=null)
+            if (udp != null && udp.isAlive())
                 udp.boom();
         }
     }

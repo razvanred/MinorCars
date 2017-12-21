@@ -5,6 +5,7 @@ import it.minoranza.minorgroup.commons.model.enums.Accessorio;
 import it.minoranza.minorgroup.commons.model.enums.Alimentazione;
 import it.minoranza.minorgroup.commons.model.enums.Marca;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -19,13 +20,19 @@ public class Auto implements Serializable {
     private final int price;
     private final Accessorio[] accessori;
 
-    public enum AutoParams{
-        modello,
-        marca,
-        motore,
-        tipo,
-        price,
-        accessori
+    public Auto(final JSONObject object) throws JSONException {
+        modello = object.getString(AutoParams.modello.name());
+        marca = Marca.valueOf(object.getString(AutoParams.marca.name()));
+        motore = new Motore(object.getJSONObject(AutoParams.motore.name()));
+
+        final JSONArray array = object.getJSONArray(AutoParams.accessori.name());
+        accessori = new Accessorio[array.length()];
+
+        for (int i = 0; i < array.length(); i++)
+            accessori[i] = Accessorio.valueOf(array.getString(i));
+
+        tipo = new Tipo(object.getJSONObject(AutoParams.tipo.name()));
+        price = object.getInt(AutoParams.price.name());
     }
 
     public Auto(final Marca marca, final String modello, final Motore motore, final Tipo tipo, final int price, final Accessorio[] accessori) {
@@ -35,6 +42,24 @@ public class Auto implements Serializable {
         this.marca = marca;
         this.price = price;
         this.accessori = accessori;
+    }
+
+    public JSONObject toJSON() {
+        final JSONObject object = new JSONObject();
+
+        object.put(AutoParams.modello.name(), modello);
+        object.put(AutoParams.marca.name(), marca.name());
+        object.put(AutoParams.motore.name(), motore.toJSON());
+        object.put(AutoParams.tipo.name(), tipo.toJSON());
+        object.put(AutoParams.price.name(), price);
+
+        final JSONArray array = new JSONArray();
+        for (Accessorio a : accessori)
+            array.put(a.name());
+
+        object.put(AutoParams.accessori.name(), array);
+
+        return object;
     }
 
     public final Marca getMarca() {
@@ -78,22 +103,13 @@ public class Auto implements Serializable {
         return price;
     }
 
-    public JSONObject toJSON(){
-        final JSONObject object=new JSONObject();
-
-        object.put(AutoParams.modello.name(),modello);
-        object.put(AutoParams.marca.name(),marca.name());
-        object.put(AutoParams.motore.name(),motore.toJSON());
-        object.put(AutoParams.tipo.name(),tipo.toJSON());
-        object.put(AutoParams.price.name(),price);
-
-        final JSONArray array=new JSONArray();
-        for(Accessorio a:accessori)
-            array.put(a.name());
-
-        object.put(AutoParams.accessori.name(),array);
-
-        return object;
+    public enum AutoParams {
+        modello,
+        marca,
+        motore,
+        tipo,
+        price,
+        accessori
     }
 
     @Override

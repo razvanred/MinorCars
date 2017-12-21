@@ -1,6 +1,7 @@
 package it.minoranza.minorgroup.commons.model;
 
 import it.minoranza.minorgroup.commons.model.enums.Versione;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -14,6 +15,11 @@ public class Tipo implements Serializable {
     public enum TipoParams{
         versione,
         tonn
+    }
+
+    public Tipo(final JSONObject object) throws JSONException {
+        versione = Versione.valueOf(object.getString(TipoParams.versione.name()));
+        tonn = object.getFloat(TipoParams.tonn.name());
     }
 
     public Tipo(Versione versione, float peso) {

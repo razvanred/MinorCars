@@ -43,7 +43,7 @@ public class TCPThread extends Thread {
                 socket.setSoTimeout(0);
 
                 final OutputStream out = socket.getOutputStream();
-                final PrintWriter wr = new PrintWriter(out,true);
+                final PrintWriter wr = new PrintWriter(out);
 
                 JSONObject object=new JSONObject();
                 object.put(DealerToServer.passkey.name(),password);
@@ -51,7 +51,7 @@ public class TCPThread extends Thread {
                 object.put(DealerToServer.portUDP.name(),portUDP);
 
                 wr.println(object);
-
+                wr.flush();
 
                 System.out.println("looking ok");
 
@@ -78,11 +78,10 @@ public class TCPThread extends Thread {
                 }
                 out.close();
                 wr.close();
-
                /* boom=true;
                 socket.close();*/
 
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
 
 
                 Platform.runLater(new Runnable() {

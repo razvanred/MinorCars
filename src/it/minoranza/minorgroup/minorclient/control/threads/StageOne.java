@@ -1,12 +1,10 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
+import it.minoranza.minorgroup.commons.model.requests.ServerToClient;
 import it.minoranza.minorgroup.minorclient.control.ListeningServer;
-import it.minoranza.minorgroup.minorclient.control.Main;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -18,6 +16,8 @@ public class StageOne extends Thread {
     private int port;
     private final ListeningServer ls;
     private Thread thread;
+    private DatagramPacket response;
+    private DatagramSocket ds;
 
     private volatile boolean run;
 
@@ -31,9 +31,9 @@ public class StageOne extends Thread {
         while (run) {
             try {
                 System.out.println("PORTA USATA "+port);
-                DatagramSocket ds = new DatagramSocket(port);
+                ds = new DatagramSocket(port);
                 byte[] res = new byte[2048];
-                DatagramPacket response = new DatagramPacket(res, res.length);
+                response = new DatagramPacket(res, res.length);
 
                 ds.receive(response);
 
@@ -45,11 +45,14 @@ public class StageOne extends Thread {
                     }
                 });*/
 
+                final JSONArray array = new JSONObject(new String(response.getData(), 0, response.getLength())).getJSONArray(ServerToClient.listDealers.name());
+                Platform.runLater(() -> ls.changeList(array));
+
 
                 //JSONObject object=new JSONObject(new String(response.getData(),0,response.getLength()));
                 //String title=object.getString(DealerToServer.nameDealer.name());
 
-                Platform.runLater(new Runnable() {
+                /*Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
 
@@ -72,7 +75,7 @@ public class StageOne extends Thread {
                             e.printStackTrace();
                         }
                     }
-                });
+                });*
 
                 /*thread = new Thread(new Runnable() {
                     @Override
@@ -121,10 +124,18 @@ public class StageOne extends Thread {
         }
     }
 
+    public final DatagramPacket getPacket() {
+        return response;
+    }
+
     public final void explode() {
         if (thread != null && thread.isAlive())
             thread.interrupt();
         run = false;
+    }
+
+    public final DatagramSocket getDatagramSocket() {
+        return ds;
     }
 
     public void startOperations(final int port) {

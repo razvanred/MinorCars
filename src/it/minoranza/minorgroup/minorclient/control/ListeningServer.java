@@ -2,6 +2,7 @@ package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.*;
 import it.minoranza.minorgroup.minorclient.control.threads.StageOne;
+import it.minoranza.minorgroup.minorclient.control.threads.StageTwo;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -66,21 +67,15 @@ public class ListeningServer implements Initializable {
     @FXML
     public void connectionToServer() {
 
-        onOff(true);
+        //onOff(true);
 
         String toSend = listDealers.getSelectionModel().getSelectedItem().getText();
         if (toSend != null) {
-
+            new StageTwo(thread.getDatagramSocket(), thread.getPacket(), this).startOperations(toSend, txfPassword.getText());
         } else {
             Notifications.create().title("Attenzione").text("Devi selezionare almeno una cella").showWarning();
         }
 
-    }
-
-    public void onOff(final boolean boo) {
-        btnConn.setDisable(boo);
-        txfPassword.setDisable(boo);
-        listDealers.setDisable(boo);
     }
 
     public final void close(){

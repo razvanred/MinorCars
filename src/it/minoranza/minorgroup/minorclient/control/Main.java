@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.JFXTabPane;
-import it.minoranza.minorgroup.minorclient.control.threads.StageTwo;
+import it.minoranza.minorgroup.minorclient.control.threads.StageThree;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ public class Main implements Initializable{
     @FXML
     private JFXTabPane tabPane;
 
-    private StageTwo two;
+    private StageThree three;
 
     @FXML
     private Tab tabOnSale, tabSold;
@@ -57,7 +57,12 @@ public class Main implements Initializable{
 
     }
 
-    public final void attachSecond(final StageTwo two){
-        this.two=two;
+    public final void attachThird(final StageThree three) {
+        this.three = three;
+        three.start();
     }
+
+    /*public final void attachSecond(final StageTwo two){
+        this.two=two;
+    }*/
 }

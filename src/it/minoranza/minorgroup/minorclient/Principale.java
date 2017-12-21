@@ -5,13 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.JSONArray;
 
 import java.io.IOException;
 
 public class Principale extends Application {
-
-    public static final JSONArray arr=new JSONArray();
 
     public static void main(String[] args) {
         launch(args);

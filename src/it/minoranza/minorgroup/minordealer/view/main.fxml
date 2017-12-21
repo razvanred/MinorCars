@@ -26,6 +26,7 @@
                 <JFXTextField fx:id="txfName" labelFloat="true" promptText="Nome concessionaria"/>
                 <JFXPasswordField fx:id="tpfPassword" labelFloat="true" promptText="Assegna password"/>
                 <JFXTextField fx:id="txfPortUDP" labelFloat="true" promptText="Porta UDP"/>
+                <JFXTextField fx:id="txfPortUDPClient" labelFloat="true" promptText="Porta UDP Client"/>
             </VBox>
             <!--<VBox spacing="25">
                 <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="Username"/>

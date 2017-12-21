@@ -31,11 +31,14 @@ public class UDPThread extends Thread {
     @Override
     public void run(){
         while(!stop){
-            System.out.println("virtual");
+            System.out.println("virtual ask");
             try{
                 byte[] buff = new byte[1024];
                 DatagramPacket packet=new DatagramPacket(buff,buff.length);
+
+                System.out.println("receiving from client");
                 socket.receive(packet);
+                System.out.println("bup");
 
                 final JSONObject object = new JSONObject(new String(packet.getData(), 0, packet.getLength()));
                 final JSONObject response = new JSONObject();

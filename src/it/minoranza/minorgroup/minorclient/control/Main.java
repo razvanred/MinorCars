@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,8 @@ public class Main implements Initializable{
     private Tab tabOnSale, tabSold;
 
     private TableProperties onSale, sold;
+
+    private JSONArray oS, s;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,6 +64,14 @@ public class Main implements Initializable{
         this.three = three;
         three.start();
     }
+
+    /*public final void refreshData(final JSONArray onSale, final JSONArray sold){
+        oS=onSale;
+        s=sold;
+
+        this.onSale.refreshData(oS);
+        this.sold.refreshData(s);
+    }*/
 
     /*public final void attachSecond(final StageTwo two){
         this.two=two;

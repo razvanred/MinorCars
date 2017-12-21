@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
 public class StageOne extends Thread {
 
@@ -24,14 +25,15 @@ public class StageOne extends Thread {
     public StageOne(final ListeningServer ls) {
         this.ls = ls;
         run = true;
+        //ds = new DatagramSocket(port);
     }
 
     @Override
     public void run() {
         while (run) {
             try {
-                System.out.println("PORTA USATA "+port);
-                ds = new DatagramSocket(port);
+                System.out.println("PORTA USATA " + port);
+
                 byte[] res = new byte[2048];
                 response = new DatagramPacket(res, res.length);
 
@@ -138,9 +140,9 @@ public class StageOne extends Thread {
         return ds;
     }
 
-    public void startOperations(final int port) {
+    public void startOperations(final int port) throws SocketException {
         this.port = port;
-       // ds=new DatagramSocket(port);
+        ds = new DatagramSocket(port);
         start();
     }
 }

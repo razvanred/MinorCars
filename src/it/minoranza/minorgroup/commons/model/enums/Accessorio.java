@@ -24,5 +24,5 @@ public enum Accessorio implements Serializable {
 
     public String getDescrizione() {
         return descrizione;
-    }
+    }//micrOS
 }

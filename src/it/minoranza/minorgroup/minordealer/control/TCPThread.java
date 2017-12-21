@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TCPThread extends Thread {
@@ -19,36 +20,37 @@ public class TCPThread extends Thread {
     private Socket socket;
     private Main main;
     private volatile boolean boom;
-    private final String name,password;
+    private final String name, password;
     private final InetAddress address;
-    private final int portTCP,portUDP;
+    private final int portTCP, portUDP, portUDPClient;
 
     public TCPThread(final Main main) throws IOException {
 
-        address=main.getAddress();
-        portTCP=main.getPortTCP();
-        portUDP=main.getPortUDP();
+        address = main.getAddress();
+        portTCP = main.getPortTCP();
+        portUDP = main.getPortUDP();
+        portUDPClient = main.getPortUDPClient();
 
-        boom=false;
-        name=main.getName().trim();
-        password=main.getPasskey();
+        boom = false;
+        name = main.getName().trim();
+        password = main.getPasskey();
     }
 
 
     @Override
-    public void run(){
-        while(!boom) {
+    public void run() {
+        while (!boom) {
             try {
-                socket=new Socket(address,portTCP);
+                socket = new Socket(address, portTCP);
                 socket.setSoTimeout(0);
 
                 final OutputStream out = socket.getOutputStream();
                 final PrintWriter wr = new PrintWriter(out);
 
-                JSONObject object=new JSONObject();
-                object.put(DealerToServer.passkey.name(),password);
-                object.put(DealerToServer.nameDealer.name(),name);
-                object.put(DealerToServer.portUDP.name(),portUDP);
+                JSONObject object = new JSONObject();
+                object.put(DealerToServer.passkey.name(), password);
+                object.put(DealerToServer.nameDealer.name(), name);
+                object.put(DealerToServer.portUDP.name(), portUDP);
 
                 wr.println(object);
                 wr.flush();
@@ -57,27 +59,38 @@ public class TCPThread extends Thread {
 
                 final InputStream in = socket.getInputStream();
                 final Scanner scanner = new Scanner(in);
+                //JSONObject response;
 
-                JSONObject response = new JSONObject(scanner.nextLine());
-                if (response.getBoolean(ServerToDealer.success.name())) {
-                    System.err.println("Now to client");
-                    UDPThread udp = new UDPThread(portUDP, main);
-                    udp.start();
-                } else {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            Notifications.create().title("Attenzione").text(response.getString(ServerToDealer.message.name())).showWarning();
-                            main.setUpDown(false);
+                for (boolean gaspa = true; gaspa; ) {
+                    try {
+                        JSONObject response = new JSONObject(scanner.nextLine());
+                        gaspa = false;
+
+                        if (response.getBoolean(ServerToDealer.success.name())) {
+                            System.err.println("Now to client");
+                            UDPThread udp = new UDPThread(portUDP, portUDPClient, main);
+                            udp.start();
+                        } else {
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Notifications.create().title("Attenzione").text(response.getString(ServerToDealer.message.name())).showWarning();
+                                    main.setUpDown(false);
+                                }
+                            });
+                            socket.close();
+
+                            boom = true;
+                            if (!socket.isClosed()) socket.close();
                         }
-                    });
-                    socket.close();
+                        out.close();
+                        wr.close();
 
-                    boom = true;
-                    if (!socket.isClosed()) socket.close();
+                    } catch (NoSuchElementException ns) {
+                        gaspa = true;
+                    }
                 }
-                out.close();
-                wr.close();
+
                /* boom=true;
                 socket.close();*/
 
@@ -104,8 +117,8 @@ public class TCPThread extends Thread {
         }
     }
 
-    public final void explode() throws IOException{
-        boom=true;
+    public final void explode() throws IOException {
+        boom = true;
         socket.close();
         if (isAlive()) interrupt();
     }

@@ -85,6 +85,37 @@ public abstract class TableProperties implements Initializable {
         return cars;
     }
 
+    /*public void refreshData(final JSONArray array) {
+
+        cars.clear();
+
+        for(int i=0;i<array.length();i++){
+
+            final JSONObject obj=array.getJSONObject(i);
+
+            try {
+                cars.add(new RowAuto(new AutoUsata(obj)));
+            }catch(JSONException exc){
+                cars.add(new RowAuto(new Auto(obj)));
+            }
+        }
+
+        filter.filter();
+       /* cars.clear();
+        try {
+
+            for (Auto a : GestoreFile.read(getList()))
+                cars.add(new RowAuto(a));
+
+            System.out.println("SIZE " + cars.size());
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            System.err.println("errore di lettura salvataggio");
+        }
+
+        filter.filter();
+    }*/
     public void refreshData() {
 
         cars.clear();

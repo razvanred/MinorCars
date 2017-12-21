@@ -39,13 +39,22 @@ public class StageTwo extends Thread {
                 object.put(ClientToServer.passkey.name(), password);
                 byte[] to_send = object.toString().getBytes();
 
+
+                System.out.println("lll");
+
                 packet.setData(to_send, 0, to_send.length);
 
+                System.out.println("vecu");
+
                 ss.send(packet);
+
+                System.err.println("vecu");
 
                 byte[] buff = new byte[2048];
                 DatagramPacket receive = new DatagramPacket(buff, buff.length);
                 ss.receive(receive);
+
+                System.out.println("STAGE TWO: " + new String(receive.getData(), 0, receive.getLength()));
 
                 final JSONObject result = new JSONObject(new String(receive.getData(), 0, receive.getLength()));
 
@@ -108,6 +117,7 @@ public class StageTwo extends Thread {
     public final void startOperations(final String dealer, final String password) {
         this.password = password;
         this.dealer = dealer;
+        System.out.println("ROSU");
         start();
     }
 

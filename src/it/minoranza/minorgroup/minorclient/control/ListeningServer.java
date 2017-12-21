@@ -1,17 +1,24 @@
 package it.minoranza.minorgroup.minorclient.control;
 
 import com.jfoenix.controls.*;
+import it.minoranza.minorgroup.commons.model.requests.ServerToDealer;
 import it.minoranza.minorgroup.minorclient.control.threads.StageOne;
-import it.minoranza.minorgroup.minorclient.control.threads.StageTwo;
+import it.minoranza.minorgroup.minorclient.control.threads.StageThree;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
-import org.controlsfx.control.Notifications;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.net.URL;
+import java.io.IOException;
+import java.net.*;
 import java.util.ResourceBundle;
 
 public class ListeningServer implements Initializable {
@@ -55,28 +62,76 @@ public class ListeningServer implements Initializable {
     @FXML
     public void startListening() {
         if(btnListen.isSelected()) {
-            thread.startOperations(Integer.parseInt(txfPort.getText()));
-            spinner.setVisible(true);
+            try {
+                thread.startOperations(Integer.parseInt(txfPort.getText()));
+                setUpDown(true);
+            } catch (SocketException sock) {
+                sock.printStackTrace();
+            }
+            //spinner.setVisible(true);
+            //onOff(true);
         }else{
             if(thread!=null&&thread.isAlive())
                 thread.explode();
-            spinner.setVisible(false);
+            setUpDown(false);
+            //spinner.setVisible(false);
         }
     }
 
     @FXML
-    public void connectionToServer() {
+    public void connectionToServer(ActionEvent ae) {
 
         //onOff(true);
 
-        String toSend = listDealers.getSelectionModel().getSelectedItem().getText();
-        if (toSend != null) {
-            new StageTwo(thread.getDatagramSocket(), thread.getPacket(), this).startOperations(toSend, txfPassword.getText());
-        } else {
-            Notifications.create().title("Attenzione").text("Devi selezionare almeno una cella").showWarning();
+        //DatagramPacket p=thread.getPacket();
+
+
+        //byte[] buff=new JSONObject(ServerToDealer.success.name(),true);
+        //p.setData();
+
+        Stage stage = new Stage();
+
+        try {
+            ((Stage) ((Node) ae.getSource()).getScene().getWindow()).close();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/minoranza/minorgroup/minorclient/view/main.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, 1240, 850));
+            Main main = loader.getController();
+
+
+            DatagramSocket r = new DatagramSocket(3333);
+
+            StageThree stageThree = new StageThree(main, r);
+            main.attachThird(stageThree);
+            //StageTwo two = new StageTwo(ds, response, main);
+            //main.attachSecond(two);
+            stage.show();
+
+            JSONObject h = new JSONObject();
+            h.put(ServerToDealer.success.name(), true);
+
+            byte[] buff = h.toString().getBytes();
+            DatagramPacket packet = new DatagramPacket(buff, buff.length, InetAddress.getLocalHost(), 40120);
+            r.send(packet);
+
+            stageThree.start();
+
+            //run = false;
+            //two.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
+
+
+        /*try{
+            String toSend = listDealers.getSelectionModel().getSelectedItem().getText();
+            new StageTwo(thread.getDatagramSocket(), thread.getPacket(), this).startOperations(toSend, txfPassword.getText());
+        } catch(NullPointerException nuller) {
+            Notifications.create().title("Attenzione").text("Devi selezionare almeno una cella").showWarning();
+        }*/
 
     public final void close(){
         ((Stage) spinner.getScene().getWindow()).close();
@@ -95,6 +150,10 @@ public class ListeningServer implements Initializable {
             lblStatus.setText("Seleziona una concessionaria");
         }
     }
+
+    /*private void onOff(final boolean boo){
+        txfPort.setDisable(status);
+    }*/
 
     public final void changeList(final JSONArray array){
         listDealers.getItems().clear();

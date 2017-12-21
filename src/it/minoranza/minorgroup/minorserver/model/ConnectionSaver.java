@@ -64,7 +64,7 @@ public class ConnectionSaver extends Thread implements Comparable<String> {
                 object.put(ServerToDealer.success.name(), true);
 
                 final OutputStream out = s.getOutputStream();
-                final PrintWriter pw = new PrintWriter(out);
+                final PrintWriter pw = new PrintWriter(out, true);
 
                 pw.println(object.toString());
                 pw.close();

@@ -19,16 +19,16 @@ public class UDPThread extends Thread {
     private static DatagramSocket socket;
 
     private InetAddress address;
-    private final int port;
+    private final int port, portClient;
     private Main main;
 
-    public UDPThread(final int port, final Main main) throws IOException {
-        socket = new DatagramSocket(4445);
+    public UDPThread(final int port, final int portClient, final Main main) throws IOException {
+        socket = new DatagramSocket(port);
         socket.setBroadcast(true);
 
         this.address = address;
         this.port = port;
-
+        this.portClient = portClient;
         this.main = main;
        /* name=main.getName();
         passkey=main.getPasskey();*/
@@ -38,16 +38,22 @@ public class UDPThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("here");
 
         while (!stop) {
-
+            System.out.println("here UDP");
             try {
                 ArrayList<Auto> read = GestoreFile.read(GestoreFile.List.onSale);
                 JSONObject object=new JSONObject();
                 JSONArray array = new JSONArray();
                 for (Auto aRead : read) array.put(aRead.toJSON());
-                object.put(DealerToClient.data.name(), array);
+                object.put(DealerToClient.onSale.name(), array);
+
+                read = GestoreFile.read(GestoreFile.List.sold);
+                array = new JSONArray();
+
+                for (Auto aRead : read) array.put(aRead.toJSON());
+                object.put(DealerToClient.sold.name(), array);
+
                 object.put(DealerToServer.nameDealer.name(), Principale.dealerName);
                 //object.put(DealerToServer.passkey.name(),passkey)
 

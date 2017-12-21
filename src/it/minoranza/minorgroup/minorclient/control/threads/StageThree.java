@@ -1,7 +1,7 @@
 package it.minoranza.minorgroup.minorclient.control.threads;
 
-import it.minoranza.minorgroup.commons.model.requests.DealerToClient;
 import it.minoranza.minorgroup.minorclient.control.Main;
+import it.minoranza.minorgroup.minordealer.control.GestoreFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,7 +32,10 @@ public class StageThree extends Thread {
             try {
                 socket.receive(packet);
 
-                final JSONArray array = new JSONObject(new String(packet.getData(), 0, packet.getLength())).getJSONArray(DealerToClient.data.name());
+                final JSONObject obj = new JSONObject(new String(packet.getData(), 0, packet.getLength()));
+                final JSONArray onSale = obj.getJSONArray(GestoreFile.List.onSale.name());
+                final JSONArray sold = obj.getJSONArray(GestoreFile.List.sold.name());
+                //main.refreshData(onSale, sold);
 
             } catch (IOException e) {
                 e.printStackTrace();

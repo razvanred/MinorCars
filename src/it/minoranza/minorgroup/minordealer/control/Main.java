@@ -3,6 +3,7 @@ package it.minoranza.minorgroup.minordealer.control;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import it.minoranza.minorgroup.minordealer.Principale;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -21,7 +22,7 @@ public class Main implements Initializable {
     private TCPThread tcp;
 
     @FXML
-    private JFXTextField txfIP, txfPortTCP, txfPortUDP, txfName;
+    private JFXTextField txfIP, txfPortTCP, txfPortUDP, txfPortUDPClient, txfName;
 
     @FXML
     private JFXPasswordField tpfPassword;
@@ -89,8 +90,10 @@ public class Main implements Initializable {
 
     public void openConnection() {
 
+
         if (btnTCP.isSelected()) {
             try {
+                Principale.dealerName = txfName.getText();
                 tcp = new TCPThread(this);
                 tcp.start();
                 setUpDown(true);
@@ -100,13 +103,13 @@ public class Main implements Initializable {
                 btnTCP.setSelected(false);
                 setUpDown(false);
             }
-            /*try {
-                udp = new UDPThread(Integer.parseInt(txfPortUDP.getText()), this);
+            try {
+                udp = new UDPThread(Integer.parseInt(txfPortUDP.getText()), Integer.parseInt(txfPortUDPClient.getText()), this);
                 udp.start();
                 setUpDown(true);
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
         /*}else{
             if (udp != null && udp.isAlive()) {
                 udp.interrupt();
@@ -137,6 +140,10 @@ public class Main implements Initializable {
 
     public final InetAddress getAddress() throws UnknownHostException {
         return InetAddress.getByName(txfIP.getText());
+    }
+
+    public final int getPortUDPClient() {
+        return Integer.parseInt(txfPortUDPClient.getText());
     }
 
     public final String getPasskey() {
